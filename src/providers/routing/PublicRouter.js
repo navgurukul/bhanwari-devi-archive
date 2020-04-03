@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import Header from "../../components/Header";
 
 
 export const PublicRoute = ({
@@ -13,8 +14,9 @@ export const PublicRoute = ({
         <Redirect to="/home" />
       ) : (
         <React.Fragment>
-          <Component {...props} />
-        </React.Fragment>
+        <Header/>
+        <Component {...props} />
+      </React.Fragment>
       )
     )} />
   );
