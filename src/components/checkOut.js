@@ -1,5 +1,5 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,9 +11,6 @@ import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import AddressForm from './addressForm';
-import PaymentForm from './payment';
-import Review from './review';
-// import State from './state';
 
 function Copyright() {
   return (
@@ -28,14 +25,14 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles((theme) => ({
+const styles = theme  => ({
   appBar: {
     position: 'relative',
   },
   layout: {
     width: 'auto',
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
+    marginLeft: theme.spacing(0),
+    marginRight: theme.spacing(0),
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
       width: 600,
       marginLeft: 'auto',
@@ -63,38 +60,48 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginLeft: theme.spacing(1),
   },
-}));
+});
 
 const steps = ['First address', 'Basic details', 'Indemnity form'];
 
 function getStepContent(step) {
   switch (step) {
     case 0:
+  
       return <AddressForm />;
-    case 1:
-      return <PaymentForm/>;
-    case 2:
-      return <Review />;
+    // case 1:
+    //   return <PaymentForm/>;
+    // case 2:
+    //   return <Review />;
     // case 3:
     //   return<State/>
     default:
       throw new Error('Unknown step');
   }
 }
+ export class  Checkout extends Component {
+  constructor(){
+    super()
+    this.state = {
+      activeStep: 0
+    }
+  }
 
-export default function Checkout() {
-  const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
 
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
+  handleNext = () => {
+    this.setState({
+      activeStep:activeStep + 1
+    })
   };
 
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
-
-  return (
+   handleBack = () => {
+    this.setState({
+      activeStep:activeStep - 1
+    })  };
+render(){
+  const {classes} = this.props
+  const {activeStep} = this.state;
+   return (
     <React.Fragment>
       <CssBaseline />
       <AppBar position="absolute" color="default" className={classes.appBar}>
@@ -132,14 +139,14 @@ export default function Checkout() {
                 {getStepContent(activeStep)}
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
+                    <Button onClick={this.handleBack} className={classes.button}>
                       Back
                     </Button>
                   )}
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleNext}
+                    onClick={this.handleNext}
                     className={classes.button}
                   >
                     {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
@@ -154,3 +161,6 @@ export default function Checkout() {
     </React.Fragment>
   );
 }
+
+}
+export default withStyles(styles)(Checkout);
