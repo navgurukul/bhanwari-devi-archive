@@ -4,18 +4,27 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Image from 'material-ui-image';
-import logo from "../../assets/images/students.jpg"
+import logo from "../../assets/images/students.jpg";
+import NgFetch from "../../utils/gadFetch"
 
-
+const baseUrl = process.env.API_URL;
 
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
+    this.state =  {
+      token:''
+    }
   }
-
-  responseGoogle = (response) => {
-    let res = response.profileObj;
-    console.log(res)
+ 
+  responseGoogle = async (response) => {
+    const opts = {
+        "data": {
+            idToken: response.tokenObj.id_token
+        }
+    }
+    const res = await NgFetch('students/login/google', "POST", opts);
+    localStorage.setItem('jwt', res.data.userToken)
   }
   render() {
     return <Grid
