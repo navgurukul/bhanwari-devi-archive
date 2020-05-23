@@ -11,6 +11,17 @@
     "deploy": "gh-pages -d dist",
     "lint": "eslint src --fix"
   },
+  "gh-pages-deploy": {
+    "staticpath": "dist",
+    "cname": "kadam.navgurukul.org",
+    "prep": [
+      "build"
+    ],
+    "post": [
+      "clean"
+    ],
+    "noprompt": true
+  },
   "homepage": "https://navgurukul.github.io/kalam",
   "author": "NavGurukul",
   "dependencies": {
