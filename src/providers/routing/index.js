@@ -4,9 +4,9 @@ import { Router, Route, Switch } from 'react-router-dom';
 import history from '../../utils/history';
 import PublicRoute from './PublicRouter';
 import PrivateRoute from './PrivateRouter';
-import Check from '../../components/checkOut';
 
 import Login from '../../screens/Login';
+import AddressForm from '../../components/addressForm';
 import FirstLogin from '../../screens/FirstLogin';
 import Register from '../../screens/Register';
 import NotFound from '../../screens/NotFound';
@@ -17,7 +17,8 @@ const AppRouter = () => (
     <Switch>
 
       {/* Login Related */}
-      <PublicRoute path="/" component={Check} exact={true} />
+      <PublicRoute path="/" component={Login} exact={true} />
+      <PublicRoute path="/addressForm" component={AddressForm} />
       <PublicRoute path="/firstLogin" component={FirstLogin} />
 
       {/* Registration page */}
