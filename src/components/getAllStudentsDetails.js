@@ -161,10 +161,10 @@ export class GetAllStudentsDetails extends Component {
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+            ok
         </Button>
         <Button size="small" color="primary">
-          Learn More
+            edit
         </Button>
       </CardActions>
     </Card>
