@@ -27,7 +27,6 @@ const useStyles = (theme => ({
     },
     root1: {
         flexGrow: 1,
-        // padding: theme.spacing(2),
         marginTop: theme.spacing(8)
     },
     title: {

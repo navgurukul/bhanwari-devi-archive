@@ -8,7 +8,15 @@ export class UpdateProfile extends Component {
              
         }
     }
-    
+    UpdateProfileData = async () => {
+        const opts = {
+            "data": {
+                idToken: response.tokenObj.id_token
+            }
+        }
+        const res = await NgFetch('/students/details/upload_file/{uploadType}', "POST", opts);
+        localStorage.setItem('jwt', res.data.userToken)
+      }
     render() {
         return (
             <div>
