@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { withSnackbar } from 'notistack';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button'
-
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 const styles = theme => ({
 
   paper: {
@@ -65,10 +65,16 @@ export class addressForm extends Component {
       city: "",
       state: "",
       pin_code: "",
-
+      selectedFile: null,
     }
   }
-
+  fileChangedHandler = event => {
+    this.setState({ selectedFile: event.target.files[0] })
+  }
+  
+  uploadHandler = () => {
+    console.log(this.state.selectedFile)
+  }
   onChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -76,17 +82,10 @@ export class addressForm extends Component {
   submit = () => {
     //Add the logic for validation
     //if data is valid
-    if(this.state.email.length  > 0 && this.state.name.length > 0 && this.state.parents_name.length > 0 && this.state.address.length > 0 && this.state.city.length > 0  && this.state.state.length > 0 && this.state.pin_code > 0 ){
+    const {email, name, parents_name, address, city, state, pin_code} = this.state;
+    if(email && name && parents_name && address && city  && state && pin_code) {
       axios.post(
-        "http://localhost:3000/students/details", {
-        email: this.state.email,
-        name: this.state.name,
-        parents_name: this.state.parents_name,
-        address: this.state.address,
-        city: this.state.city,
-        state: this.state.state,
-        pin_code: this.state.pin_code,
-      },
+        "http://localhost:3000/students/details", this.state,
         {
           headers: {
             'Authorization': localStorage.getItem("jwt")
@@ -126,18 +125,10 @@ export class addressForm extends Component {
         });
     }
 
-      // .catch(error => {
-      //   this.props.enqueueSnackbar('Something went wrong, Please try again!', {
-      //     variant: 'error', anchorOrigin: {
-      //       vertical: "bottom",
-      //       horizontal: 'left',
-      //     }
-      //   });
-      // })
-
       //if it's invalid , display error
   }
   render() {
+    
     const { classes } = this.props;
     const states = [
       {label: 'Choose State'},
@@ -173,10 +164,13 @@ export class addressForm extends Component {
       <React.Fragment>
         <main className={classes.layout}>
           <Paper className={classes.paper}>
+            <center><AccountCircleIcon style={{ height: 100, width: 100, color: "gray" }} /></center>
+            
+            <center>
             <Typography colour="primary" variant="h6" gutterBottom>
               Welcome to Navgurukul
-      </Typography>
-
+            </Typography>
+            </center>
             <Grid container spacing={3}>
               <Grid item xs={12}>
 
@@ -190,7 +184,7 @@ export class addressForm extends Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField required
+                <TextField 
                   id="Email"
                   name="email"
                   label="Email of student"
@@ -200,7 +194,7 @@ export class addressForm extends Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField required
+                <TextField 
                   id="parents"
                   name="parents_name"
                   label="Name of parents"
@@ -210,7 +204,7 @@ export class addressForm extends Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField required
+                <TextField 
                   id="address"
                   name="address"
                   label="Address"
@@ -221,7 +215,7 @@ export class addressForm extends Component {
               </Grid>
               <Grid item xs={12} sm={6}>
 
-                <TextField required
+                <TextField 
                   id="city"
                   name="city"
                   label="City"
@@ -238,21 +232,28 @@ export class addressForm extends Component {
                   options={states}
                   getOptionLabel={(option) => option.label}
                   onChange={(event, value) => this.setState({ state: value.label })}
-                  renderInput={(params) => <TextField required {...params} label={"State"} />}
+                  renderInput={(params) => <TextField {...params} label={"State"} />}
                 />
 
               </Grid>
 
               <Grid item xs={12}>
-                <TextField required
+                <TextField 
                   id="zip"
                   name="pin_code"
+                  type="number"
                   label="PIN"
+                  maxlength="6"
                   value={this.state.pin_code}
+                  placeholder="Integer"
                   onChange={(e) => this.onChange(e)}
                   fullWidth
                 />
               </Grid>
+              {/* <Grid item xs={12}>
+              <input type="file" onChange={this.fileChangedHandler} />
+              <button onClick={this.uploadHandler}>Upload!</button>
+              </Grid> */}
               <div className={classes.buttons}>
                 <Button
                   variant="contained"

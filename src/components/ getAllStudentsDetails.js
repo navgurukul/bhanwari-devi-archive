@@ -1,112 +1,141 @@
-import React, { Component } from 'react'
-import axios from 'axios';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
-import { Grid } from '@material-ui/core/';
-import { withStyles } from '@material-ui/core/styles';
+import React, { Component } from "react";
+import axios from "axios";
+import Card from "@material-ui/core/Card";
+// import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+import { Grid } from "@material-ui/core/";
+import { withStyles } from "@material-ui/core/styles";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
-import Container from '@material-ui/core/Container';
+import Container from "@material-ui/core/Container";
 
-const useStyles = (theme => ({
+const useStyles = (theme) => ({
     root: {
-        maxWidth: 250,
-        height: 250
+        minWidth: 275,
+        marginTop: "20px",
     },
-    media: {
-        height: 150,
-        width: 150,
-        marginLeft: 45
-    },
-    paper: {
-        marginTop: theme.spacing(7),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+
+    papers: {
+        display: "grid",
+        gridTemplateColumns: "20% 20% 20%",
+        justifyContent: "center",
     },
     root1: {
-        flexGrow: 1,
-        marginTop: theme.spacing(8)
+        // flexGrow: 1,
+
+        display: "flex",
+        // marginTop: theme.spacing(4),
+        marginLeft: theme.spacing(4),
     },
     title: {
         flexGrow: 1,
     },
-}));
+
+    card: {
+        width: "600%",
+        // margin: theme.spacing(2),
+        marginTop: "30%"
+       
+
+    },
+
+    
+});
 export class GetAllStudentsDetails extends Component {
     constructor(props) {
-        super(props)
+        super(props);
 
         this.state = {
-            studentsDetails: []
-        }
+            studentsDetails: [],
+        };
     }
     componentDidMount() {
-        axios.get(
-            "http://localhost:3000/students/details",
-            {
+        axios
+            .get("http://localhost:3000/students/details", {
                 headers: {
-                    'Authorization': localStorage.getItem("jwt")
-                }
+                    Authorization: localStorage.getItem("jwt"),
+                },
             })
             .then((response) => {
                 this.setState({
-                    studentsDetails: response.data.data
-                })
+                    studentsDetails: response.data.data,
+                });
             })
-            .catch(error => {
-                console.log(error, "error")
-            })
+            .catch((error) => {
+                console.log(error, "error");
+            });
     }
     render() {
-        console.log(this.state.studentsDetails, "qwertyuiuoop")
+        console.log(this.state.studentsDetails);
         const { classes } = this.props;
         return (
-            <div className={classes.paper}>
-                {this.state.studentsDetails.map(filteredItem => (
-                    <Container>
-                        <div className={classes.root1}>
-                            <Grid
-                                container
-                                spacing={2}
-                                direction="row"
-                                justify="flex-start"
-                                alignItems="flex-start"
-                            >
-                                <Grid item xs={12} sm={6} md={3} spacing={5}>
+            <React.Fragment>
+                
+                <Grid className={classes.papers} style={{ backgroundColor: '#F0F0F0'}}>
+                    {this.state.studentsDetails.map((filteredItem, index) => (
+                        <Container key={index} >
+                            <div className={classes.root1} >
+                                <Card className={classes.card} >
+                                    <CardContent>
 
-                                    <Card style={{ padding: 15, background: "salmon" }}>
-                                        <CardActionArea style={{ background: "lightsalmon", }}>
-                                            <CardContent>
+                                        <Grid container spacing={1}>
+                                            <Grid item xs={12}>
+                                                <center><AccountCircleIcon style={{ height: 100, width: 100, color: "gray" }} /></center>
+                                                <hr></hr>
+                                            </Grid>
+                                            <Grid item xs={12}>
+
                                                 <Typography gutterBottom variant="h5" component="h2">
                                                     Name {filteredItem.name}
                                                 </Typography>
+                                                <hr></hr>
+                                            </Grid>
+                                            <Grid item xs={12}>
+
                                                 <Typography gutterBottom variant="h5" component="h2">
                                                     Email {filteredItem.email}
                                                 </Typography>
+                                                <hr></hr>
+                                            </Grid>
+                                            <Grid item xs={12}>
+
                                                 <Typography gutterBottom variant="h5" component="h2">
                                                     Parents Name {filteredItem.parents_name}
                                                 </Typography>
+                                                <hr></hr>
+                                            </Grid>
+                                            <Grid item xs={12}>
+
                                                 <Typography gutterBottom variant="h5" component="h2">
                                                     City {filteredItem.city}
                                                 </Typography>
+                                                <hr></hr>
+                                            </Grid>
+                                            <Grid item xs={12}>
+
                                                 <Typography gutterBottom variant="h5" component="h2">
                                                     State {filteredItem.state}
                                                 </Typography>
+                                                <hr></hr>
+                                            </Grid>
+                                            <Grid item xs={12}>
+
                                                 <Typography gutterBottom variant="h5" component="h2">
                                                     PIN {filteredItem.pin_code}
                                                 </Typography>
-                                            </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                            </Grid>
-                        </div>
-                    </Container>
-                ))
-                }
-            </div>
-        )
+                                                <hr></hr>
+                                            </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </Container>
+                    ))}
+                </Grid>
+                
+                </React.Fragment>
+        );
     }
 }
 
