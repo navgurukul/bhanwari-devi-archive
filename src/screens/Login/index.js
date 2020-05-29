@@ -25,7 +25,7 @@ export default class Login extends React.Component {
     };
     const res = await NgFetch("students/login/google", "POST", opts);
     localStorage.setItem("jwt", res.data.userToken);
-    console.log(res, "--------------------");
+    console.log(res);
   };
   render() {
     return (
