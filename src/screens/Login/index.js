@@ -55,7 +55,7 @@ export default class Login extends React.Component {
         >
           <Typography variant="body2" color="textSecondary" component="p">
             <GoogleLogin
-              clientId="883673891408-gp177goh98bcut8mp4nt8d9bcqe8vg3b.apps.googleusercontent.com"
+	      clientId="34917283366-b806koktimo2pod1cjas8kn2lcpn7bse.apps.googleusercontent.com"
               buttonText="Login with Google"
               onSuccess={this.responseGoogle}
               onFailure={this.responseGoogle} ></GoogleLogin>

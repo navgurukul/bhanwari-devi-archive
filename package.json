@@ -5,11 +5,22 @@
   "main": "app.js",
   "scripts": {
     "clean": "rm -rf node_modules && rm -rf dist",
-    "build": "cp public/index.html dist/index.html && cp public/index.html dist/404.html && NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --config webpack.prod.js",
+    "build": "mkdir dist && cp public/index.html dist/index.html && cp public/index.html dist/404.html && NODE_ENV=production ./node_modules/webpack/bin/webpack.js -p --config webpack.prod.js",
     "dev": "webpack-dev-server --open --config webpack.dev.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "lint": "eslint src --fix"
+  },
+  "gh-pages-deploy": {
+    "staticpath": "dist",
+    "cname": "kadam.navgurukul.org",
+    "prep": [
+      "build"
+    ],
+    "post": [
+      "clean"
+    ],
+    "noprompt": true
   },
   "homepage": "https://navgurukul.github.io/kalam",
   "author": "NavGurukul",
