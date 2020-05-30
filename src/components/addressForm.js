@@ -65,16 +65,45 @@ export class addressForm extends Component {
       city: "",
       state: "",
       pin_code: "",
-      selectedFile: null,
+      profile_pic: "",
+      file: "",
+      fileType: "",
+      indemnity_form: "",
     }
   }
+
   fileChangedHandler = event => {
-    this.setState({ selectedFile: event.target.files[0] })
+    if (event.target.files[0].type === "imgae/png") {
+      this.setState({
+        fileType: "profilePic"
+      })
+    } else {
+      this.setState({
+        fileType: "profilePic"
+      })
+    }
+    this.setState({ file: event.target.files[0] })
   }
-  
-  uploadHandler = () => {
-    console.log(this.state.selectedFile)
+
+  UpdateProfileData = async () => {
+    const formData = new FormData();
+    formData.append('file', this.state.file)
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    }
+    axios.post('http://localhost:3000/students/details/upload_file/profilePic', formData, config)
+      .then((res) => {
+        // console.log(res.data.fileUrl, "swati singh")
+        this.setState({
+          profile_pic: res.data.fileUrl,
+          indemnity_form: res.data.fileUrl
+        })
+      })
+
   }
+
   onChange = (event) => {
     const { name, value } = event.target;
     this.setState({ [name]: value });
@@ -82,56 +111,72 @@ export class addressForm extends Component {
   submit = () => {
     //Add the logic for validation
     //if data is valid
-    const {email, name, parents_name, address, city, state, pin_code} = this.state;
-    if(email && name && parents_name && address && city  && state && pin_code) {
+    // const { email, name, parents_name, address, city, state, pin_code, profile_pic, indemnity_form } = this.state;
+    // console.log(this.state,"state")
+    if (this.state.email && this.state.name && this.state.parents_name && this.state.address && this.state.city && this.state.state && this.state.pin_code && this.state.profile_pic && this.state.indemnity_form) {
+      console.log("What is the problam ? are you made?")
       axios.post(
-        "http://localhost:3000/students/details", this.state,
+        "http://localhost:3000/students/details", {
+          email:this.state.email,
+          name:this.state.name,
+          parents_name:this.state.parents_name,
+          address:this.state.address,
+          city:this.state.city,
+          state:this.state.state,
+          pin_code:this.state.pin_code,
+          profile_pic:this.state.profile_pic,
+          indemnity_form:this.state.indemnity_form
+
+
+        },
         {
           headers: {
             'Authorization': localStorage.getItem("jwt")
           }
         })
         .then(Response => {
-          console.log(Response,"swati");
-          
-          if (Response.data){
+          console.log(Response, "swati");
+
+          if (Response.data) {
             this.props.enqueueSnackbar('Details succesfuly sended', {
               variant: 'success', anchorOrigin: {
                 vertical: 'bottom',
                 horizontal: 'left',
               }
             });
-            this.setState({
-            name: "",
-            email: "",
-            parents_name: "",
-            address: "",
-            city: "",
-            state: "",
-            pin_code: "",
-  
-          })
-          const { history } = this.props;
-          history.push('/getAllStudentsDetails')
-  
+            // this.setState({
+            //   name: "",
+            //   email: "",
+            //   parents_name: "",
+            //   address: "",
+            //   city: "",
+            //   state: "",
+            //   pin_code: "",
+
+            // })
+            const { history } = this.props;
+            history.push('/getAllStudentsDetails')
+
           }
         })
-    }else{
-        this.props.enqueueSnackbar('First fill all the fields!', {
-          variant: 'error', anchorOrigin: {
-            vertical: "bottom",
-            horizontal: 'left',
+          } else {
+            this.props.enqueueSnackbar('First fill all the fields!', {
+              variant: 'error', anchorOrigin: {
+                vertical: "bottom",
+                horizontal: 'left',
+              }
+            });
           }
-        });
-    }
 
-      //if it's invalid , display error
+      
+
+    //if it's invalid , display error
   }
   render() {
-    
+
     const { classes } = this.props;
     const states = [
-      {label: 'Choose State'},
+      { label: 'Choose State' },
       { label: 'Andhra Pradesh' },
       { label: 'Arunachal Pradesh' },
       { label: 'Assam' },
@@ -164,11 +209,16 @@ export class addressForm extends Component {
       <React.Fragment>
         <main className={classes.layout}>
           <Paper className={classes.paper}>
-            <center><AccountCircleIcon style={{ height: 100, width: 100, color: "gray" }} /></center>
-            
+
+            {this.state.file ? <center><img style={{ height: 150, width: 150, borderRadius:100 }} src={this.state.profile_pic} /></center> : <center><AccountCircleIcon style={{ height: 100, width: 100, color: "gray" }} /></center>}
+
+            <center><input type="file" onChange={this.fileChangedHandler} />
+              <button onClick={this.UpdateProfileData}>Upload!</button></center>
+
+
             <center>
-            <Typography colour="primary" variant="h6" gutterBottom>
-              Welcome to Navgurukul
+              <Typography colour="primary" variant="h6" gutterBottom>
+                Welcome to Navgurukul
             </Typography>
             </center>
             <Grid container spacing={3}>
@@ -184,7 +234,7 @@ export class addressForm extends Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField 
+                <TextField
                   id="Email"
                   name="email"
                   label="Email of student"
@@ -194,7 +244,7 @@ export class addressForm extends Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField 
+                <TextField
                   id="parents"
                   name="parents_name"
                   label="Name of parents"
@@ -204,7 +254,7 @@ export class addressForm extends Component {
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField 
+                <TextField
                   id="address"
                   name="address"
                   label="Address"
@@ -215,7 +265,7 @@ export class addressForm extends Component {
               </Grid>
               <Grid item xs={12} sm={6}>
 
-                <TextField 
+                <TextField
                   id="city"
                   name="city"
                   label="City"
@@ -238,7 +288,7 @@ export class addressForm extends Component {
               </Grid>
 
               <Grid item xs={12}>
-                <TextField 
+                <TextField
                   id="zip"
                   name="pin_code"
                   type="number"
@@ -250,10 +300,7 @@ export class addressForm extends Component {
                   fullWidth
                 />
               </Grid>
-              {/* <Grid item xs={12}>
-              <input type="file" onChange={this.fileChangedHandler} />
-              <button onClick={this.uploadHandler}>Upload!</button>
-              </Grid> */}
+
               <div className={classes.buttons}>
                 <Button
                   variant="contained"
