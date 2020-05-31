@@ -6,8 +6,6 @@ import PrivateRoute from './PrivateRouter';
 import Login from '../../screens/Login';
 import AddressForm from '../../components/addressForm';
 import GetAllStudentsDetails from '../../components/ getAllStudentsDetails'
-// import UpdateProfile from '../../components/updateProfile'
-import EditStudentData from '../../components/editStudentData'
 import FirstLogin from '../../screens/FirstLogin';
 import Register from '../../screens/Register';
 import NotFound from '../../screens/NotFound';
@@ -21,8 +19,6 @@ const AppRouter = () => (
       <PublicRoute path="/" component={Login} exact={true} />
       <PublicRoute path="/addressForm" component={AddressForm} />
       <PublicRoute path="/getAllStudentsDetails" component={GetAllStudentsDetails} />
-      {/* <PublicRoute path="/updateProfile" component={UpdateProfile} /> */}
-      <PublicRoute path="/editStudentData" component={EditStudentData} />
       <PublicRoute path="/firstLogin" component={FirstLogin} />
 
       {/* Registration page */}

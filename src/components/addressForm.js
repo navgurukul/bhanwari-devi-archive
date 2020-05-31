@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
@@ -10,6 +9,8 @@ import { withSnackbar } from 'notistack';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { connect } from 'react-redux';
+import { changeFetching } from '../store/actions/auth';
 const styles = theme => ({
 
   paper: {
@@ -39,10 +40,6 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "flex-end"
   },
-  button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(55),
-  },
 
   option: {
     fontSize: 15,
@@ -66,40 +63,46 @@ export class addressForm extends Component {
       state: "",
       pin_code: "",
       profile_pic: "",
-      file: "",
-      fileType: "",
       indemnity_form: "",
+      fileType: "",
     }
   }
 
-  fileChangedHandler = event => {
-    if (event.target.files[0].type === "imgae/png") {
+  fileChangedHandler = async (event) => {
+    if (event.target.files[0].type === "application/pdf") {
       this.setState({
-        fileType: "profilePic"
+        fileType: "indemnityForm"
       })
     } else {
       this.setState({
         fileType: "profilePic"
       })
     }
-    this.setState({ file: event.target.files[0] })
+    await this.UpdateProfileData(event.target.files[0])
   }
 
-  UpdateProfileData = async () => {
+  UpdateProfileData = async (file) => {
     const formData = new FormData();
-    formData.append('file', this.state.file)
+    formData.append('file', file)
     const config = {
       headers: {
         'content-type': 'multipart/form-data'
       }
     }
+    this.props.fetchingStart()
     axios.post('http://localhost:3000/students/details/upload_file/profilePic', formData, config)
       .then((res) => {
-        // console.log(res.data.fileUrl, "swati singh")
-        this.setState({
-          profile_pic: res.data.fileUrl,
-          indemnity_form: res.data.fileUrl
-        })
+        if (this.state.fileType === "profilePic") {
+          this.setState({
+            profile_pic: res.data.fileUrl,
+          })
+          this.props.fetchingFinish()
+        } else {
+          this.setState({
+            indemnity_form: res.data.fileUrl
+          })
+          this.props.fetchingFinish()
+        }
       })
 
   }
@@ -111,24 +114,12 @@ export class addressForm extends Component {
   submit = () => {
     //Add the logic for validation
     //if data is valid
-    // const { email, name, parents_name, address, city, state, pin_code, profile_pic, indemnity_form } = this.state;
-    // console.log(this.state,"state")
-    if (this.state.email && this.state.name && this.state.parents_name && this.state.address && this.state.city && this.state.state && this.state.pin_code && this.state.profile_pic && this.state.indemnity_form) {
+    const { email, name, parents_name, address, city, state, pin_code, profile_pic, indemnity_form } = this.state;
+    if (email && name && parents_name && address && city && state && pin_code && profile_pic && indemnity_form) {
+      delete this.state.fileType;
       console.log("What is the problam ? are you made?")
       axios.post(
-        "http://localhost:3000/students/details", {
-          email:this.state.email,
-          name:this.state.name,
-          parents_name:this.state.parents_name,
-          address:this.state.address,
-          city:this.state.city,
-          state:this.state.state,
-          pin_code:this.state.pin_code,
-          profile_pic:this.state.profile_pic,
-          indemnity_form:this.state.indemnity_form
-
-
-        },
+        "http://localhost:3000/students/details", this.state,
         {
           headers: {
             'Authorization': localStorage.getItem("jwt")
@@ -136,7 +127,7 @@ export class addressForm extends Component {
         })
         .then(Response => {
           console.log(Response, "swati");
-
+          localStorage.setItem("user", JSON.stringify(Response.data.data[0]))
           if (Response.data) {
             this.props.enqueueSnackbar('Details succesfuly sended', {
               variant: 'success', anchorOrigin: {
@@ -144,34 +135,38 @@ export class addressForm extends Component {
                 horizontal: 'left',
               }
             });
-            // this.setState({
-            //   name: "",
-            //   email: "",
-            //   parents_name: "",
-            //   address: "",
-            //   city: "",
-            //   state: "",
-            //   pin_code: "",
-
-            // })
+            this.setState({
+              name: "",
+              email: "",
+              parents_name: "",
+              address: "",
+              city: "",
+              state: "",
+              pin_code: "",
+              profile_pic: "",
+              indemnity_form: "",
+              fileType: "",
+            })
             const { history } = this.props;
             history.push('/getAllStudentsDetails')
-
           }
         })
-          } else {
-            this.props.enqueueSnackbar('First fill all the fields!', {
-              variant: 'error', anchorOrigin: {
-                vertical: "bottom",
-                horizontal: 'left',
-              }
-            });
-          }
+    } else {
+      this.props.enqueueSnackbar('First fill all the fields!', {
+        variant: 'error', anchorOrigin: {
+          vertical: "bottom",
+          horizontal: 'left',
+        }
+      });
+    }
 
-      
+
 
     //if it's invalid , display error
   }
+
+  fileUpload = () => <input id="file-upload" type="file" onChange={this.fileChangedHandler} />
+
   render() {
 
     const { classes } = this.props;
@@ -209,13 +204,11 @@ export class addressForm extends Component {
       <React.Fragment>
         <main className={classes.layout}>
           <Paper className={classes.paper}>
-
-            {this.state.file ? <center><img style={{ height: 150, width: 150, borderRadius:100 }} src={this.state.profile_pic} /></center> : <center><AccountCircleIcon style={{ height: 100, width: 100, color: "gray" }} /></center>}
-
-            <center><input type="file" onChange={this.fileChangedHandler} />
-              <button onClick={this.UpdateProfileData}>Upload!</button></center>
-
-
+            {this.state.profile_pic ? <center><img style={{ height: 150, width: 150, borderRadius: 100 }} src={this.state.profile_pic} /></center> : <center><AccountCircleIcon style={{ height: 100, width: 100, color: "gray" }} /></center>}
+            <center>
+              <label for="file-upload" className="file-upload"> Upload Profile</label>
+              {this.fileUpload()}
+            </center>
             <center>
               <Typography colour="primary" variant="h6" gutterBottom>
                 Welcome to Navgurukul
@@ -300,17 +293,29 @@ export class addressForm extends Component {
                   fullWidth
                 />
               </Grid>
-
-              <div className={classes.buttons}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={this.submit}
-                  className={classes.button}
-                >
-                  submit
+              {this.state.indemnity_form &&
+                <center><iframe
+                  src={this.state.indemnity_form}
+                  style={{ width: 570, height: 500, marginTop: 25, marginBottom: 25 }}
+                  frameborder="0">
+                </iframe></center>
+              }
+              <Grid item xs={12} xs={6}>
+                <label for="file-upload" className="file-upload"> Upload Indemnity Form</label>
+                {this.fileUpload()}
+              </Grid>
+              <Grid item xs={12} xs={6}>
+                <div className={classes.buttons}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={this.submit}
+                  >
+                    submit
           </Button>
-              </div>
+                </div>
+
+              </Grid>
             </Grid>
           </Paper>
         </main>
@@ -319,4 +324,9 @@ export class addressForm extends Component {
   }
 }
 
-export default withStyles(styles)(withSnackbar(addressForm));
+const mapDispatchToProps = (dispatch) => ({
+  fetchingStart: () => dispatch(changeFetching(true)),
+  fetchingFinish: () => dispatch(changeFetching(false))
+});
+
+export default connect(undefined, mapDispatchToProps)(withStyles(styles)(withSnackbar(addressForm)));

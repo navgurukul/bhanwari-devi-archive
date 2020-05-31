@@ -28,7 +28,7 @@ export default class Login extends React.Component {
     console.log(res,"swathgjhtrj");
     
     localStorage.setItem('jwt', res.data.userToken)
-    // history.push('/addressForm')
+    history.push('/addressForm')
   }
   render() {
     return <Grid
