@@ -11,6 +11,9 @@ import Button from '@material-ui/core/Button'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { connect } from 'react-redux';
 import { changeFetching } from '../store/actions/auth';
+// import { isMobileDevice } from 'react-select/src/utils';
+import ImageComponent from 'material-ui-image';
+
 const styles = theme => ({
 
   paper: {
@@ -108,8 +111,16 @@ export class addressForm extends Component {
   }
 
   onChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
+    if(localStorage.getItem("UserRole")  === "SuperAdmin" || localStorage.getItem("UserRole")  === "Admin"){
+      const { name, value } = event.target;
+      this.setState({ [name]: value });
+
+    }else{
+      const { name, value } = event.target;
+      this.setState({ [name]: value ,
+        email:localStorage.getItem("email")
+      });
+    }
   };
   submit = () => {
     //Add the logic for validation
@@ -168,7 +179,7 @@ export class addressForm extends Component {
   fileUpload = () => <input id="file-upload" type="file" onChange={this.fileChangedHandler} />
 
   render() {
-
+    console.log(this.state,"qqqqqqqqqq")
     const { classes } = this.props;
     const states = [
       { label: 'Choose State' },
@@ -200,6 +211,9 @@ export class addressForm extends Component {
       { label: 'Uttarakhand' },
       { label: 'West Bengal' },
     ];
+
+    const userRole = localStorage.getItem("UserRole")
+    const email = localStorage.getItem("email")
     return (
       <React.Fragment>
         <main className={classes.layout}>
@@ -226,6 +240,8 @@ export class addressForm extends Component {
                   fullWidth
                 />
               </Grid>
+              { userRole === "SuperAdmin" || userRole === "Admin" ? 
+              
               <Grid item xs={12}>
                 <TextField
                   id="Email"
@@ -236,6 +252,7 @@ export class addressForm extends Component {
                   fullWidth
                 />
               </Grid>
+              : null }
               <Grid item xs={12}>
                 <TextField
                   id="parents"

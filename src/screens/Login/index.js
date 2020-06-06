@@ -22,12 +22,12 @@ export default class Login extends React.Component {
         }
     }
     const { history } = this.props;
-    console.log(history,"history");
     
     const res = await NgFetch('students/login/google', "POST", opts);
-    console.log(res,"swathgjhtrj");
-    
+    console.log(res,"hjk")
     localStorage.setItem('jwt', res.data.userToken)
+    localStorage.setItem('UserRole',res.data.user.UserRole)
+    localStorage.setItem('email',res.data.user.email)
     history.push('/addressForm')
   }
   render() {

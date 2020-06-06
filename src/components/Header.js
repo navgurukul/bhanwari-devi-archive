@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import Toolbar from '@material-ui/core/Toolbar';
 import Box from '@material-ui/core/Box';
 import logo from '../assets/images/logo.png';
-import { Link } from 'react-router-dom';
 import { logout } from '../store/actions/auth';
-import { withRouter } from 'react-router-dom';
+import { withRouter , Link } from 'react-router-dom';
 import Image from 'material-ui-image';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
+console.log(withRouter);
 export class Header extends React.Component {
 
   constructor(props) {
