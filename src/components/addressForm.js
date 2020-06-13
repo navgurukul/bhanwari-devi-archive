@@ -10,6 +10,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button'
 
+console.log("TEST");
+
 const styles = theme => ({
 
   paper: {
