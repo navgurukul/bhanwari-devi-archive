@@ -10,48 +10,48 @@ import { withStyles } from '@material-ui/core/styles';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Button from '@material-ui/core/Button'
 
-const styles = theme => ({
+// const styles = theme => ({
 
-  paper: {
-    marginTop: theme.spacing(6),
-    marginBottom: theme.spacing(3),
-    padding: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(15),
-      marginBottom: theme.spacing(6),
-      padding: theme.spacing(3),
-    },
-  },
+//   paper: {
+//     marginTop: theme.spacing(6),
+//     marginBottom: theme.spacing(3),
+//     padding: theme.spacing(2),
+//     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+//       marginTop: theme.spacing(15),
+//       marginBottom: theme.spacing(6),
+//       padding: theme.spacing(3),
+//     },
+//   },
 
 
-  layout: {
-    width: "auto",
-    marginLeft: theme.spacing(0),
-    marginRight: theme.spacing(0),
-    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-      width: 600,
-      marginLeft: "auto",
-      marginRight: "auto",
-    },
-  },
+//   layout: {
+//     width: "auto",
+//     marginLeft: theme.spacing(0),
+//     marginRight: theme.spacing(0),
+//     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+//       width: 600,
+//       marginLeft: "auto",
+//       marginRight: "auto",
+//     },
+//   },
 
-  buttons: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(55),
-  },
+//   buttons: {
+//     display: "flex",
+//     justifyContent: "flex-end"
+//   },
+//   button: {
+//     marginTop: theme.spacing(3),
+//     marginLeft: theme.spacing(55),
+//   },
 
-  option: {
-    fontSize: 15,
-    '& > span': {
-      marginRight: 100,
-      fontSize: 18,
-    },
-  },
-});
+//   option: {
+//     fontSize: 15,
+//     '& > span': {
+//       marginRight: 100,
+//       fontSize: 18,
+//     },
+//   },
+// });
 
 export class addressForm extends Component {
   constructor(props) {
