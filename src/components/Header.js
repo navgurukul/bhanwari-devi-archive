@@ -8,12 +8,16 @@ import { Link } from 'react-router-dom';
 import { logout } from '../store/actions/auth';
 import { withRouter } from 'react-router-dom';
 import Image from 'material-ui-image';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 export class Header extends React.Component {
 
   constructor(props) {
     super(props)
   }
+
+  renderProgressBar = () => this.props.isFetching ? (<LinearProgress />) : (<span></span>)
+
   render() {
 
     return (
@@ -23,6 +27,7 @@ export class Header extends React.Component {
             position="fixed"
             color="default"
           >
+            {this.renderProgressBar()}
             <Toolbar style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Box style={{ display: 'flex' }}>
                 <Box pt={0.5}>

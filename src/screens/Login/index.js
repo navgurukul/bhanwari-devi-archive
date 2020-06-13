@@ -7,8 +7,6 @@ import Image from 'material-ui-image';
 import logo from "../../assets/images/students.jpg";
 import NgFetch from "../../utils/gadFetch"
 
-const baseUrl = process.env.API_URL;
-
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -23,8 +21,14 @@ export default class Login extends React.Component {
             idToken: response.tokenObj.id_token
         }
     }
+    const { history } = this.props;
+    console.log(history,"history");
+    
     const res = await NgFetch('students/login/google', "POST", opts);
+    console.log(res,"swathgjhtrj");
+    
     localStorage.setItem('jwt', res.data.userToken)
+    history.push('/addressForm')
   }
   render() {
     return <Grid

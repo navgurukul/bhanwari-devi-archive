@@ -274,8 +274,19 @@ form {
   }
 }
 
+.file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+input[type="file"] {
+  display: none;
+}
 
 /* Media query for tablets */
+
 
 @media only screen and (min-width: 600px) {
   .contact-page-name-list-field {
@@ -296,4 +307,81 @@ form {
     margin-left: 0.25em;
     width: 19em;
   }
+}
+
+
+.root {
+  min-width: 275;
+  margin-top: 20px,
+  
+}
+
+.papers{
+  display: grid;
+  grid-template-columns: 20% 20% 20%;
+  justify-content: center;
+}
+.root1 {
+  /* flex-grow: 1; */
+  display:flex;
+  /* margin-top: theme.spacing(4); */
+  margin-left:4px;
+}
+.title {
+  flex-grow: 1;
+}
+
+.card {
+  width: 600%;
+  /* margin: theme.spacing(2); */
+  margin-top: 30%;
+}
+
+.paper{
+  margin-top: 6px;
+  margin-top: 3px;
+  padding:2px;
+}
+
+
+.layout{
+  width: auto;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.buttons {
+  display:flex;
+  justify-content:flex-end;
+}
+
+.option {
+  font-size: 15;
+  /* '& > span': {
+    marginRight: 100,
+    fontSize: 18, */
+  }
+
+.media{
+  height: 140px;
+}
+
+.a {
+  display: inline-block;
+  padding-left: 20px;
+  width:180px;
+}
+
+  
+@media only screen and (min-width: 600px) {  
+  .paper{
+    margin-top:15px;
+    margin-bottom:6px;
+    padding:3px;
+  }
+  .layout{
+    width: 600;
+    margin-left: auto;
+    margin-right: auto;
+    }
 }

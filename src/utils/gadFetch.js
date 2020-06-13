@@ -7,7 +7,6 @@ const BASE_URL = process.env.API_URL;
 
 
 export default async function ngFetch(url, method='GET', options={}, useAuth=true) {
-  console.log(options,"PJ")
   const opts = {
     url: `${BASE_URL}${url}`,
     method,
