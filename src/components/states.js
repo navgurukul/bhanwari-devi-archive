@@ -32,5 +32,5 @@ const states = [
 function randomStates() {
    return states
 }
-export { randomStates };
+export{ randomStates };
   
