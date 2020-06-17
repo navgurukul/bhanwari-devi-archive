@@ -7,18 +7,20 @@ import './styles/styles.css';
 import {theme} from './theme/theme';
 import configureStore from './store/config/configureStore';
 import {logout} from './store/actions/auth';
+import { SnackbarProvider } from 'notistack';
 
 import Providers from './providers'
 
 const store = configureStore();
 store.subscribe(()=>{
-  // console.log(store.getState());
 });
 
 const App = () => (
   <Provider store={store}>
   <MuiThemeProvider theme={theme}>
-    <Providers />
+    <SnackbarProvider maxSnack={1}>
+      <Providers />
+    </SnackbarProvider>
   </MuiThemeProvider>
   </Provider>
 );
