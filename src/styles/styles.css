@@ -356,7 +356,7 @@ input[type="file"] {
 }
 
 .option {
-  font-size: 15;
+  font-size: 15px;
   /* '& > span': {
     marginRight: 100,
     fontSize: 18, */

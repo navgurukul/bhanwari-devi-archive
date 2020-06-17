@@ -11,49 +11,49 @@ import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { connect } from "react-redux";
 import { changeFetching } from "../store/actions/auth";
-import { randomStates } from "./states";
-import '../styles/styles.css';
+// import { randomStates } from "./states";
+// import '../styles/styles.css';
 
 // var validEmailRe = RegExp(
 //   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 // );
 
-// const styles = (theme) => ({
-//   paper: {
-//     marginTop: theme.spacing(6),
-//     marginBottom: theme.spacing(3),
-//     padding: theme.spacing(2),
-//     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-//       marginTop: theme.spacing(15),
-//       marginBottom: theme.spacing(6),
-//       padding: theme.spacing(3),
-//     },
-//   },
+const styles = (theme) => ({
+  paper: {
+    marginTop: theme.spacing(6),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(15),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3),
+    },
+  },
 
-//   layout: {
-//     width: "auto",
-//     marginLeft: theme.spacing(0),
-//     marginRight: theme.spacing(0),
-//     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-//       width: 600,
-//       marginLeft: "auto",
-//       marginRight: "auto",
-//     },
-//   },
+  layout: {
+    width: "auto",
+    marginLeft: theme.spacing(0),
+    marginRight: theme.spacing(0),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: 600,
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
+  },
 
-//   buttons: {
-//     display: "flex",
-//     justifyContent: "flex-end",
-//   },
+  buttons: {
+    display: "flex",
+    justifyContent: "flex-end",
+  },
 
-//   option: {
-//     fontSize: 15,
-//     "& > span": {
-//       marginRight: 100,
-//       fontSize: 18,
-//     },
-//   },
-// });
+  option: {
+    fontSize: 15,
+    "& > span": {
+      marginRight: 100,
+      fontSize: 18,
+    },
+  },
+});
 
 export class addressForm extends Component {
   constructor(props) {
@@ -70,7 +70,7 @@ export class addressForm extends Component {
       profile_pic: "",
       indemnity_form: "",
       fileType: "",
-      slug:randomStates(),
+      // slug:randomStates(),
 
       // errors: {
       //   name: "",
@@ -128,9 +128,9 @@ export class addressForm extends Component {
   };
 
   onChange = (e) => {
-    const { name, value } = event.target;
+    const { name, value } = e.target;
     this.setState({ [name]: value });
-  
+
     // const { name, value } = e.target;
     // let errors = this.state.errors;
     // const newErros = { ...errors };
@@ -148,7 +148,7 @@ export class addressForm extends Component {
     //     newErros.parents_name =
     //       value.length > 5 ? "" : "Full Name must be 5 characters long!";
     //     break;
-       
+
     //     case "address":
     //     newErros.address =
     //       value.length > 5 ? "" : "Full Name must be 5 characters long!";
@@ -157,12 +157,12 @@ export class addressForm extends Component {
     //       newErros.city =
     //         value.length > 6 ? "" : "field cannot be empty";
     //       break;
-        
+
     //   case "pin_code":
     //     newErros.pin_code =
     //       value.length < 6 ? "" : "Full Name must be 6 characters long!";
     //     break;
-       
+
     //   default:
     //     break;
     // }
@@ -195,7 +195,6 @@ export class addressForm extends Component {
       state &&
       pin_code &&
       profile_pic &&
-
       // errors &&
       //   name &&
       //   email &&
@@ -203,7 +202,7 @@ export class addressForm extends Component {
       //   address &&
       //   city &&
       //   state &&
-      //   pin_code && 
+      //   pin_code &&
 
       indemnity_form
     ) {
@@ -219,7 +218,7 @@ export class addressForm extends Component {
           console.log(Response);
           localStorage.setItem("user", JSON.stringify(Response.data.data[0]));
           if (Response.data) {
-            this.props.enqueueSnackbar("Details succesfuly sended", {
+            this.props.enqueueSnackbar("Details succefuly sended", {
               variant: "success",
               anchorOrigin: {
                 vertical: "bottom",
@@ -259,40 +258,42 @@ export class addressForm extends Component {
 
   render() {
     const { classes } = this.props;
-    // const states = [
-    //   { label: "Choose State" },
-    //   { label: "Andhra Pradesh" },
-    //   { label: "Arunachal Pradesh" },
-    //   { label: "Assam" },
-    //   { label: "Bihar" },
-    //   { label: "Chhattisgarh" },
-    //   { label: "Goa" },
-    //   { label: "Gujarat" },
-    //   { label: "Himachal Pradesh" },
-    //   { label: "Jharkhand" },
-    //   { label: "Karnataka" },
-    //   { label: "Kerala" },
-    //   { label: "Madhya Pradesh" },
-    //   { label: "Maharashtra	" },
-    //   { label: "Manipur" },
-    //   { label: "Meghalaya" },
-    //   { label: "Mizoram" },
-    //   { label: "Nagaland" },
-    //   { label: "Odisha" },
-    //   { label: "Punjab" },
-    //   { label: "Rajasthan" },
-    //   { label: "Sikkim" },
-    //   { label: "Tamil Nadu" },
-    //   { label: "Telangana" },
-    //   { label: "Tripura" },
-    //   { label: "Uttar Pradesh	" },
-    //   { label: "Uttarakhand" },
-    //   { label: "West Bengal" },
-    // ];
+    const states = [
+      { label: "Choose State" },
+      { label: "Andhra Pradesh" },
+      { label: "Arunachal Pradesh" },
+      { label: "Assam" },
+      { label: "Bihar" },
+      { label: "Chhattisgarh" },
+      { label: "Goa" },
+      { label: "Gujarat" },
+      { label: "Himachal Pradesh" },
+      { label: "Jharkhand" },
+      { label: "Karnataka" },
+      { label: "Kerala" },
+      { label: "Madhya Pradesh" },
+      { label: "Maharashtra	" },
+      { label: "Manipur" },
+      { label: "Meghalaya" },
+      { label: "Mizoram" },
+      { label: "Nagaland" },
+      { label: "Odisha" },
+      { label: "Punjab" },
+      { label: "Rajasthan" },
+      { label: "Sikkim" },
+      { label: "Tamil Nadu" },
+      { label: "Telangana" },
+      { label: "Tripura" },
+      { label: "Uttar Pradesh	" },
+      { label: "Uttarakhand" },
+      { label: "West Bengal" },
+    ];
     return (
       <React.Fragment>
-        <main className="layout">
-          <Paper className="paper">
+        {/* <main className="layout"> */}
+        <main className={classes.layout}>
+          {/* <Paper className="paper"> */}
+          <Paper className={classes.paper}>
             {this.state.profile_pic ? (
               <center>
                 <img
@@ -375,12 +376,12 @@ export class addressForm extends Component {
                 />
                 {/* <div style={{ color: "red" }}>{this.state.errors.city}</div> */}
               </Grid>
-              
+
               <Grid item xs={12} sm={6}>
                 <Autocomplete
                   id="combo-box-demo"
                   label="state"
-                  options={this.state.slug}
+                  options={states}
                   getOptionLabel={(option) => option.label}
                   onChange={(event, value) =>
                     this.setState({ state: value.label })
@@ -427,7 +428,8 @@ export class addressForm extends Component {
                 {this.fileUpload()}
               </Grid>
               <Grid item xs={12} xs={6}>
-                <div className="buttons">
+                {/* <div className="buttons"> */}
+                <div className={classes.buttons}>
                   <Button
                     variant="contained"
                     color="primary"
@@ -450,7 +452,9 @@ const mapDispatchToProps = (dispatch) => ({
   fetchingFinish: () => dispatch(changeFetching(false)),
 });
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(withSnackbar(addressForm));
+// export default connect(
+//   undefined,
+//   mapDispatchToProps
+// )(withSnackbar(addressForm));
+
+export default connect(undefined, mapDispatchToProps)(withStyles(styles)(withSnackbar(addressForm)));

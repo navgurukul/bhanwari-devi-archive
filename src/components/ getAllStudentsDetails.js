@@ -8,33 +8,33 @@ import Paper from "@material-ui/core/Paper";
 // import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
-import '../styles/styles.css';
+// import '../styles/styles.css';
 
-// const useStyles = (theme) => ({
-//   root: {
-//     maxWidth: 1500,
-//     marginTop: 80,
-//     margin: theme.spacing(2),
-//     borderRadius:16,
+const useStyles = (theme) => ({
+  root: {
+    maxWidth: 1500,
+    marginTop: 80,
+    margin: theme.spacing(2),
+    borderRadius:16,
    
-//   },
+  },
 
-//   papers: {
-//     display: "grid",
-//     gridTemplateColumns: "30% 30% 30%",
-//     justifyContent: "center",
-//   },
+  papers: {
+    display: "grid",
+    gridTemplateColumns: "30% 30% 30%",
+    justifyContent: "center",
+  },
 
-//   media: {
-//     height: 140,
-//   },
-//   a: {
-//     display: "inline-block",
-//     paddingLeft: "20px",
-//     width: "180px",
+  media: {
+    height: 140,
+  },
+  a: {
+    display: "inline-block",
+    paddingLeft: "20px",
+    width: "180px",
     
-//   },
-// });
+  },
+});
 
 export class GetAllStudentsDetails extends Component {
   constructor(props) {
@@ -66,10 +66,12 @@ export class GetAllStudentsDetails extends Component {
     const { classes } = this.props;
 
     return (
-      <Grid className="papers" style={{ backgroundColor: "#F0F0F0" }}>
+      // <Grid className="papers" style={{ backgroundColor: "#F0F0F0" }}>
+      <Grid className={classes.papers} style={{ backgroundColor: "#F0F0F0" }}> 
         {this.state.studentsDetails.map((filteredItem, index) => (
           <Grid item xs={12}>
-          <Paper className="root">
+          {/* <Paper className="root"> */}
+          <Paper className={classes.root}>
             <CardActionArea>
             <center>
                 <img
@@ -94,7 +96,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#000000"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#000000"}}
                 >
                   Name:
                 </Typography>
@@ -102,7 +105,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#686868"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#686868"}}
                 >
                   {filteredItem.name}
                 </Typography>
@@ -111,7 +115,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a"
+                  // className="a"
+                  className={classes.a}
                   style={{ width: "180px", color:"#000000"}} 
                 >
                   Parents Name:
@@ -120,7 +125,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#686868"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#686868"}}
                 >
                   {filteredItem.parents_name}
                 </Typography>
@@ -136,7 +142,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#000000"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#000000"}}
                 >
                   Address :
                 </Typography>
@@ -144,7 +151,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#686868"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#686868"}}
                 >
                   {filteredItem.address}
                 </Typography>
@@ -153,7 +161,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#000000"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#000000"}}
                 >
                   City:
                 </Typography>
@@ -161,7 +170,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#686868"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#686868"}}
                 >
                   {filteredItem.city}
                 </Typography>
@@ -170,7 +180,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#000000"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#000000"}}
                 >
                   State:
                 </Typography>
@@ -178,7 +189,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#686868"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#686868"}}
                 >
                   {filteredItem.state}
                 </Typography>
@@ -187,7 +199,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#000000"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#000000"}}
                 >
                   PIN :
                 </Typography>
@@ -195,7 +208,8 @@ export class GetAllStudentsDetails extends Component {
                   gutterBottom
                   variant="h5"
                   component="h2"
-                  className="a" style={{color:"#686868"}}
+                  // className="a"
+                  className={classes.a} style={{color:"#686868"}}
                 >
                   {filteredItem.pin_code}
                 </Typography>
@@ -209,4 +223,6 @@ export class GetAllStudentsDetails extends Component {
     );
   }
 }
-export default (GetAllStudentsDetails);
+// export default (GetAllStudentsDetails);
+
+export default withStyles(useStyles)(GetAllStudentsDetails);
