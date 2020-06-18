@@ -72,11 +72,11 @@ export class addressForm extends Component {
       errors: {
         name: "",
         email: "",
-        // parents_name: "",
-        // address: "",
-        // city:"",
-        // state: "",
-        // pin_code: ""
+        parents_name: "",
+        address: "",
+        city: "",
+        state: "",
+        pin_code: "",
       },
     };
   }
@@ -132,31 +132,30 @@ export class addressForm extends Component {
     switch (name) {
       case "name":
         newErros.name =
-         value.length > 5 ? "" : "Full Name must be 5 characters long!";
-        break;
+          value.length > 5 ? "" : "Full Name must be 5 characters long!";
 
       case "email":
-        newErros.email = validEmailRe.test(value) ? "" : "Email is not valid!";   
-        break;
-    //   case "parents_name":
-    //     newErros.parents_name =
-    //       value.length > 5 ? "" : "Full Name must be 5 characters long!";
-    //     break;
-       
-    //     case "address":
-    //     newErros.address =
-    //       value.length > 5 ? "" : "Full Name must be 5 characters long!";
-    //     break;
-    //     case "city":
-    //       newErros.city =
-    //         value.length > 6 ? "" : "field cannot be empty";
-    //       break;
-        
-    //   case "pin_code":
-    //     newErros.pin_code =
-    //       value.length < 6 ? "" : "Full Name must be 6 characters long!";
-    //     break;
-       
+        newErros.email = validEmailRe.test(value) ? "" : "Email is not valid!";
+
+      case "parents_name":
+        newErros.parents_name =
+          value.length > 5 ? "" : "Full Name must be 5 characters long!";
+
+      case "address":
+        newErros.address =
+          value.length > 5 ? "" : "Full Name must be 5 characters long!";
+
+      case "state":
+        newErros.state =
+          value.length > 5 ? "" : "Full Name must be 5 characters long!";
+
+      case "city":
+        newErros.city = value.length > 0 ? "" : "field cannot be empty";
+
+      case "pin_code":
+        newErros.pin_code =
+          value.length < 6 ? "pin_code must be long at least 6 digit!" : "";
+
       default:
         break;
     }
@@ -168,7 +167,6 @@ export class addressForm extends Component {
     });
   };
 
-  
   submit = () => {
     //Add the logic for validation
     //if data is valid
@@ -192,55 +190,54 @@ export class addressForm extends Component {
       state &&
       pin_code &&
       profile_pic &&
-
-
       indemnity_form
     ) {
       delete this.state.fileType;
       console.log("What is the problam ? are you made?");
-      axios
-        .post("http://localhost:3000/students/details", {
-          headers: {
-            Authorization: localStorage.getItem("jwt"),
-          },
-          params:{
-            name: this.state.name,
-            email: this.state.email,
-            parents_name: this.state.parents_name,
-            address: this.state.address,
-            city: this.state.city,
-            state: this.state.state,
-            pin_code: this.state.pin_code,
-            profile_pic: this.state.profile_pic
-          }
-        })
-        .then((Response) => {
-          console.log(Response);
-          localStorage.setItem("user", JSON.stringify(Response.data.data[0]));
-          if (Response.data) {
-            this.props.enqueueSnackbar("Details succesfuly sended", {
-              variant: "success",
-              anchorOrigin: {
-                vertical: "bottom",
-                horizontal: "left",
-              },
-            });
-            this.setState({
-              name: "",
-              email: "",
-              parents_name: "",
-              address: "",
-              city: "",
-              state: "",
-              pin_code: "",
-              profile_pic: "",
-              indemnity_form: "",
-              fileType: "",
-            });
-            const { history } = this.props;
-            history.push("/getAllStudentsDetails");
-          }
-        });
+      axios({
+        method: "POST",
+        url: "http://localhost:3000/students/details",
+        headers: {
+          Authorization: localStorage.getItem("jwt"),
+        },
+        data: {
+          name: this.state.name,
+          email: this.state.email,
+          parents_name: this.state.parents_name,
+          address: this.state.address,
+          city: this.state.city,
+          state: this.state.state,
+          pin_code: this.state.pin_code,
+          profile_pic: this.state.profile_pic,
+          indemnity_form: this.state.indemnity_form,
+        },
+      }).then((Response) => {
+        console.log(Response);
+        localStorage.setItem("user", JSON.stringify(Response.data.data[0]));
+        if (Response.data) {
+          this.props.enqueueSnackbar("Details succesfuly sended", {
+            variant: "success",
+            anchorOrigin: {
+              vertical: "bottom",
+              horizontal: "left",
+            },
+          });
+          this.setState({
+            name: "",
+            email: "",
+            parents_name: "",
+            address: "",
+            city: "",
+            state: "",
+            pin_code: "",
+            profile_pic: "",
+            indemnity_form: "",
+            fileType: "",
+          });
+          const { history } = this.props;
+          history.push("/getAllStudentsDetails");
+        }
+      });
     } else {
       this.props.enqueueSnackbar("First fill all the fields!", {
         variant: "error",
@@ -257,7 +254,26 @@ export class addressForm extends Component {
   );
 
   render() {
+    const {
+      email,
+      name,
+      parents_name,
+      address,
+      state,
+      city,
+      pin_code,
+    } = this.state;
+
+    const isEnabled =
+      validEmailRe.test(email) &&
+      name.length > 5 &&
+      parents_name.length > 5 &&
+      address.length > 5 &&
+      city.length > 0 &&
+      pin_code.length > 6;
+
     const { classes } = this.props;
+
     const states = [
       { label: "Choose State" },
       { label: "Andhra Pradesh" },
@@ -291,155 +307,159 @@ export class addressForm extends Component {
     return (
       <React.Fragment>
         <div>
-        <main className={classes.layout}>
-          <Paper className={classes.paper}>
-            {this.state.profile_pic ? (
-              <center>
-                <img
-                  style={{ height: 150, width: 150, borderRadius: 100 }}
-                  src={this.state.profile_pic}
-                />
-              </center>
-            ) : (
-              <center>
-                <AccountCircleIcon
-                  style={{ height: 100, width: 100, color: "gray" }}
-                />
-              </center>
-            )}
-            <center>
-              <label htmlFor="file-upload" className="file-upload">
-                {" "}
-                Upload Profile
-              </label>
-              {this.fileUpload()}
-            </center>
-            <center>
-              <Typography colour="primary" variant="h6" gutterBottom>
-                Welcome to Navgurukul
-              </Typography>
-            </center>
-            <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <TextField
-                  id="Name"
-                  name="name"
-                  label="Name of student"
-                  value={this.state.name}
-                  onChange={(e) => this.onChange(e)}
-                  fullWidth
-                />
-              </Grid>
-              <div style={{ color: "red" }}>{this.state.errors.name}</div>
-              <Grid item xs={12}>
-                <TextField
-                  id="Email"
-                  name="email"
-                  label="Email of student"
-                  value={this.state.email}
-                  onChange={(e) => this.onChange(e)}
-                  fullWidth
-                />
-              </Grid>
-              <div style={{ color: "red" }}>{this.state.errors.email}</div>
-              <Grid item xs={12}>
-                <TextField
-                  id="parents"
-                  name="parents_name"
-                  label="Name of parents"
-                  value={this.state.parents_name}
-                  onChange={(e) => this.onChange(e)}
-                  fullWidth
-                />
-              </Grid>
-              {/* <div style={{ color: "red" }}>{this.state.errors.parents_name}</div> */}
-              <Grid item xs={12}>
-                <TextField
-                  id="address"
-                  name="address"
-                  label="Address"
-                  value={this.state.address}
-                  onChange={(e) => this.onChange(e)}
-                  fullWidth
-                />
-              </Grid>
-              {/* <div style={{ color: "red" }}>{this.state.errors.address}</div> */}
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  id="city"
-                  name="city"
-                  label="City"
-                  value={this.state.city}
-                  onChange={(e) => this.onChange(e)}
-                  fullWidth
-                />
-                {/* <div style={{ color: "red" }}>{this.state.errors.city}</div> */}
-              </Grid>
-              
-              <Grid item xs={12} sm={6}>
-                <Autocomplete
-                  id="combo-box-demo"
-                  label="state"
-                  options={states}
-                  getOptionLabel={(option) => option.label}
-                  onChange={(event, value) =>
-                    this.setState({ state: value.label })
-                  }
-                  renderInput={(params) => (
-                    <TextField {...params} label={"State"} />
-                  )}
-                />
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField
-                  id="zip"
-                  name="pin_code"
-                  type="number"
-                  label="PIN"
-                  maxLength="6"
-                  value={this.state.pin_code}
-                  placeholder="Integer"
-                  onChange={(e) => this.onChange(e)}
-                  fullWidth
-                />
-              </Grid>
-              {/* <div style={{ color: "red" }}>{this.state.errors.pin_code}</div>  */}
-              {this.state.indemnity_form && (
+          <main className={classes.layout}>
+            <Paper className={classes.paper}>
+              {this.state.profile_pic ? (
                 <center>
-                  <iframe
-                    src={this.state.indemnity_form}
-                    style={{
-                      width: 570,
-                      height: 500,
-                      marginTop: 25,
-                      marginBottom: 25,
-                    }}
-                    frameBorder="0"
-                  ></iframe>
+                  <img
+                    style={{ height: 150, width: 150, borderRadius: 100 }}
+                    src={this.state.profile_pic}
+                  />
+                </center>
+              ) : (
+                <center>
+                  <AccountCircleIcon
+                    style={{ height: 100, width: 100, color: "gray" }}
+                  />
                 </center>
               )}
-              <Grid item xs={12} xs={6}>
+              <center>
                 <label htmlFor="file-upload" className="file-upload">
                   {" "}
-                  Upload Indemnity Form
+                  Upload Profile
                 </label>
                 {this.fileUpload()}
-              </Grid>
-              <Grid item xs={12} xs={6}>
-                <div className={classes.buttons}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={this.submit}
-                  >
-                    submit
-                  </Button>
+              </center>
+              <center>
+                <Typography colour="primary" variant="h6" gutterBottom>
+                  Welcome to Navgurukul
+                </Typography>
+              </center>
+              <Grid container spacing={3}>
+                <Grid item xs={12}>
+                  <TextField
+                    id="Name"
+                    name="name"
+                    label="Name of student"
+                    value={this.state.name}
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                </Grid>
+                <div style={{ color: "red" }}>{this.state.errors.name}</div>
+                <Grid item xs={12}>
+                  <TextField
+                    id="Email"
+                    name="email"
+                    label="Email of student"
+                    value={this.state.email}
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                </Grid>
+                <div style={{ color: "red" }}>{this.state.errors.email}</div>
+                <Grid item xs={12}>
+                  <TextField
+                    id="parents"
+                    name="parents_name"
+                    label="Name of parents"
+                    value={this.state.parents_name}
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                </Grid>
+                <div style={{ color: "red" }}>
+                  {this.state.errors.parents_name}
                 </div>
+                <Grid item xs={12}>
+                  <TextField
+                    id="address"
+                    name="address"
+                    label="Address"
+                    value={this.state.address}
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                </Grid>
+                <div style={{ color: "red" }}>{this.state.errors.address}</div>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="city"
+                    name="city"
+                    label="City"
+                    value={this.state.city}
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                  <div style={{ color: "red" }}>{this.state.errors.city}</div>
+                </Grid>
+
+                <Grid item xs={12} sm={6}>
+                  <Autocomplete
+                    id="combo-box-demo"
+                    label="state"
+                    options={states}
+                    getOptionLabel={(option) => option.label}
+                    onChange={(event, value) =>
+                      this.setState({ state: value.label })
+                    }
+                    renderInput={(params) => (
+                      <TextField {...params} label={"State"} />
+                    )}
+                  />
+                  <div style={{ color: "red" }}>{this.state.errors.state}</div>
+                </Grid>
+
+                <Grid item xs={12}>
+                  <TextField
+                    id="zip"
+                    name="pin_code"
+                    type="number"
+                    label="PIN"
+                    maxLength="6"
+                    value={this.state.pin_code}
+                    placeholder="Integer"
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                </Grid>
+                <div style={{ color: "red" }}>{this.state.errors.pin_code}</div>
+                {this.state.indemnity_form && (
+                  <center>
+                    <iframe
+                      src={this.state.indemnity_form}
+                      style={{
+                        width: 570,
+                        height: 500,
+                        marginTop: 25,
+                        marginBottom: 25,
+                      }}
+                      frameBorder="0"
+                    ></iframe>
+                  </center>
+                )}
+                <Grid item xs={12} xs={6}>
+                  <label htmlFor="file-upload" className="file-upload">
+                    {" "}
+                    Upload Indemnity Form
+                  </label>
+                  {this.fileUpload()}
+                </Grid>
+                <Grid item xs={12} xs={6}>
+                  <div className={classes.buttons}>
+                    <Button
+                      disabled={!isEnabled}
+                      variant="contained"
+                      color="primary"
+                      onClick={this.submit}
+                    >
+                      submit
+                    </Button>
+                  </div>
+                </Grid>
               </Grid>
-            </Grid>
-          </Paper>
-        </main>
+            </Paper>
+          </main>
         </div>
       </React.Fragment>
     );

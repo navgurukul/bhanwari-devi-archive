@@ -22,7 +22,6 @@ export default class Login extends React.Component {
       },
     };
 
-    
     const { history } = this.props;
     console.log(history, "history");
 

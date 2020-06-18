@@ -5,7 +5,6 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-// import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
 
@@ -14,8 +13,7 @@ const useStyles = (theme) => ({
     maxWidth: 1500,
     marginTop: 80,
     margin: theme.spacing(2),
-    borderRadius:16,
-   
+    borderRadius: 16,
   },
 
   papers: {
@@ -31,7 +29,6 @@ const useStyles = (theme) => ({
     display: "inline-block",
     paddingLeft: "20px",
     width: "180px",
-    
   },
 });
 
@@ -68,140 +65,138 @@ export class GetAllStudentsDetails extends Component {
       <Grid className={classes.papers} style={{ backgroundColor: "#F0F0F0" }}>
         {this.state.studentsDetails.map((filteredItem, index) => (
           <Grid key={index} item xs={12}>
-          <Paper className={classes.root}>
-            <CardActionArea>
-            <center>
-                <img
-                   style={{ height: 130, width: 130, borderRadius: 100 ,marginTop:"20px"}}
-                  src={filteredItem.profile_pic}
-                />
-              </center>
-              {/* <center>
-                <AccountCircleIcon 
-                  style={{
-                    height: 100,
-                    width: 100,
-                    color: "gray",
-                    marginTop: "20px",
-                  }}
-                  
-                />
-              </center> */}
+            <Paper className={classes.root}>
+              <CardActionArea>
+                <center>
+                  <img
+                    style={{
+                      height: 130,
+                      width: 130,
+                      borderRadius: 100,
+                      marginTop: "20px",
+                    }}
+                    src={filteredItem.profile_pic}
+                  />
+                </center>
 
-              <CardContent style={{ marginLeft: "20px" }}>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a} style={{color:"#000000"}}
-                >
-                  Name:
-                </Typography>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a} style={{color:"#686868"}}
-                >
-                 {filteredItem.name}
-                </Typography>
-                <br />
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a}
-                  style={{ width: "180px", color:"#000000"}} 
-                >
-                  Parents Name:
-                </Typography>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a}style={{color:"#686868"}}
-                >
-                  {filteredItem.parents_name}
-                </Typography>
-                <br />
-                {/* <Typography gutterBottom variant="h5" component="h2" className={classes.a}>
-                  Email :
-                </Typography>
-                <Typography gutterBottom variant="h5" component="h2" className={classes.a}>
-                  {filteredItem.email}
-                </Typography> */}
-                {/* <br/> */}
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a} style={{color:"#000000"}}
-                >
-                  Address :
-                </Typography>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a}style={{color:"#686868"}}
-                >
-                  {filteredItem.address}
-                </Typography>
-                <br />
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a} style={{color:"#000000"}}
-                >
-                  City:
-                </Typography>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a}style={{color:"#686868"}}
-                >
-                  {filteredItem.city}
-                </Typography>
-                <br />
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a} style={{color:"#000000"}}
-                >
-                  State:
-                </Typography>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a}style={{color:"#686868"}}
-                >
-                  {filteredItem.state}
-                </Typography>
-                <br />
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a} style={{color:"#000000"}}
-                >
-                  PIN :
-                </Typography>
-                <Typography
-                  gutterBottom
-                  variant="h5"
-                  component="h2"
-                  className={classes.a}style={{color:"#686868"}}
-                >
-                  {filteredItem.pin_code}
-                </Typography>
-                {/* </div> */}
-              </CardContent>
-            </CardActionArea>
-          </Paper>
+                <CardContent style={{ marginLeft: "20px" }}>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#000000" }}
+                  >
+                    Name:
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#686868" }}
+                  >
+                    {filteredItem.name}
+                  </Typography>
+                  <br />
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ width: "180px", color: "#000000" }}
+                  >
+                    Parents Name:
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#686868" }}
+                  >
+                    {filteredItem.parents_name}
+                  </Typography>
+                  <br />
+
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#000000" }}
+                  >
+                    Address :
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#686868" }}
+                  >
+                    {filteredItem.address}
+                  </Typography>
+                  <br />
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#000000" }}
+                  >
+                    City:
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#686868" }}
+                  >
+                    {filteredItem.city}
+                  </Typography>
+                  <br />
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#000000" }}
+                  >
+                    State:
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#686868" }}
+                  >
+                    {filteredItem.state}
+                  </Typography>
+                  <br />
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#000000" }}
+                  >
+                    PIN :
+                  </Typography>
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="h2"
+                    className={classes.a}
+                    style={{ color: "#686868" }}
+                  >
+                    {filteredItem.pin_code}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Paper>
           </Grid>
         ))}
       </Grid>
