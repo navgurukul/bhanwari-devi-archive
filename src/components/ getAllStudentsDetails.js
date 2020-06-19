@@ -5,34 +5,32 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-// import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
-import "../styles/styles.css";
 
-// const useStyles = theme => ({
-//   root: {
-//     maxWidth: 1500,
-//     marginTop: 80,
-//     margin: theme.spacing(2),
-//     borderRadius: 16
-//   },
+const useStyles = theme => ({
+  root: {
+    maxWidth: 1500,
+    marginTop: 80,
+    margin: theme.spacing(2),
+    borderRadius: 16
+  },
 
-//   papers: {
-//     display: "grid",
-//     gridTemplateColumns: "30% 30% 30%",
-//     justifyContent: "center"
-//   },
+  papers: {
+    display: "grid",
+    gridTemplateColumns: "30% 30% 30%",
+    justifyContent: "center"
+  },
 
-//   media: {
-//     height: 140
-//   },
-//   a: {
-//     display: "inline-block",
-//     paddingLeft: "20px",
-//     width: "180px"
-//   }
-// });
+  media: {
+    height: 140
+  },
+  a: {
+    display: "inline-block",
+    paddingLeft: "20px",
+    width: "180px"
+  }
+});
 
 export class GetAllStudentsDetails extends Component {
   constructor(props) {
@@ -205,6 +203,5 @@ export class GetAllStudentsDetails extends Component {
     );
   }
 }
-export default GetAllStudentsDetails;
 
-// export default withStyles(useStyles)(GetAllStudentsDetails);
+export default withStyles(useStyles)(GetAllStudentsDetails);

@@ -11,49 +11,47 @@ import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { connect } from "react-redux";
 import { changeFetching } from "../store/actions/auth";
-import { randomStates } from "./states";
-import "../styles/styles.css";
 
 var validEmailRe = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 );
 
-// const styles = theme => ({
-//   paper: {
-//     marginTop: theme.spacing(6),
-//     marginBottom: theme.spacing(3),
-//     padding: theme.spacing(2),
-//     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-//       marginTop: theme.spacing(15),
-//       marginBottom: theme.spacing(6),
-//       padding: theme.spacing(3)
-//     }
-//   },
+const styles = theme => ({
+  paper: {
+    marginTop: theme.spacing(6),
+    marginBottom: theme.spacing(3),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(15),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3)
+    }
+  },
 
-//   layout: {
-//     width: "auto",
-//     marginLeft: theme.spacing(0),
-//     marginRight: theme.spacing(0),
-//     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-//       width: 600,
-//       marginLeft: "auto",
-//       marginRight: "auto"
-//     }
-//   },
+  layout: {
+    width: "auto",
+    marginLeft: theme.spacing(0),
+    marginRight: theme.spacing(0),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: 600,
+      marginLeft: "auto",
+      marginRight: "auto"
+    }
+  },
 
-//   buttons: {
-//     display: "flex",
-//     justifyContent: "flex-end"
-//   },
+  buttons: {
+    display: "flex",
+    justifyContent: "flex-end"
+  },
 
-//   option: {
-//     fontSize: 15,
-//     "& > span": {
-//       marginRight: 100,
-//       fontSize: 18
-//     }
-//   }
-// });
+  option: {
+    fontSize: 15,
+    "& > span": {
+      marginRight: 100,
+      fontSize: 18
+    }
+  }
+});
 
 export class addressForm extends Component {
   constructor(props) {
@@ -274,43 +272,42 @@ export class addressForm extends Component {
       city.length > 0 &&
       pin_code.length > 6;
 
-    // const { classes } = this.props;
+    const { classes } = this.props;
 
-    // const states = [
-    //   { label: "Choose State" },
-    //   { label: "Andhra Pradesh" },
-    //   { label: "Arunachal Pradesh" },
-    //   { label: "Assam" },
-    //   { label: "Bihar" },
-    //   { label: "Chhattisgarh" },
-    //   { label: "Goa" },
-    //   { label: "Gujarat" },
-    //   { label: "Himachal Pradesh" },
-    //   { label: "Jharkhand" },
-    //   { label: "Karnataka" },
-    //   { label: "Kerala" },
-    //   { label: "Madhya Pradesh" },
-    //   { label: "Maharashtra	" },
-    //   { label: "Manipur" },
-    //   { label: "Meghalaya" },
-    //   { label: "Mizoram" },
-    //   { label: "Nagaland" },
-    //   { label: "Odisha" },
-    //   { label: "Punjab" },
-    //   { label: "Rajasthan" },
-    //   { label: "Sikkim" },
-    //   { label: "Tamil Nadu" },
-    //   { label: "Telangana" },
-    //   { label: "Tripura" },
-    //   { label: "Uttar Pradesh	" },
-    //   { label: "Uttarakhand" },
-    //   { label: "West Bengal" },
-    // ];
+    const states = [
+      { label: "Choose State" },
+      { label: "Andhra Pradesh" },
+      { label: "Arunachal Pradesh" },
+      { label: "Assam" },
+      { label: "Bihar" },
+      { label: "Chhattisgarh" },
+      { label: "Goa" },
+      { label: "Gujarat" },
+      { label: "Himachal Pradesh" },
+      { label: "Jharkhand" },
+      { label: "Karnataka" },
+      { label: "Kerala" },
+      { label: "Madhya Pradesh" },
+      { label: "Maharashtra	" },
+      { label: "Manipur" },
+      { label: "Meghalaya" },
+      { label: "Mizoram" },
+      { label: "Nagaland" },
+      { label: "Odisha" },
+      { label: "Punjab" },
+      { label: "Rajasthan" },
+      { label: "Sikkim" },
+      { label: "Tamil Nadu" },
+      { label: "Telangana" },
+      { label: "Tripura" },
+      { label: "Uttar Pradesh	" },
+      { label: "Uttarakhand" },
+      { label: "West Bengal" }
+    ];
     return (
       <React.Fragment>
-        <main className="layout">
-          {/* <main className={classes.layout}> */}
-          <Paper className="paper">
+        <main className={classes.layout}>
+          <Paper className={classes.paper}>
             {this.state.profile_pic ? (
               <center>
                 <img
@@ -400,7 +397,7 @@ export class addressForm extends Component {
                 <Autocomplete
                   id="combo-box-demo"
                   label="state"
-                  options={this.state.States}
+                  options={states}
                   getOptionLabel={option => option.label}
                   onChange={(event, value) =>
                     this.setState({ state: value.label })
@@ -448,7 +445,7 @@ export class addressForm extends Component {
                 {this.fileUpload()}
               </Grid>
               <Grid item xs={12} xs={6}>
-                <div className="buttons">
+                <div className={classes.buttons}>
                   <Button
                     disabled={!isEnabled}
                     variant="contained"
@@ -475,6 +472,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   undefined,
   mapDispatchToProps
-)(withSnackbar(addressForm));
-
-// export default connect(undefined, mapDispatchToProps)(withStyles(styles)(withSnackbar(addressForm)));
+)(withStyles(styles)(withSnackbar(addressForm)));
