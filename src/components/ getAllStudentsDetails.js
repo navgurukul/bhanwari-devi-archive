@@ -8,28 +8,28 @@ import Paper from "@material-ui/core/Paper";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
 
-const useStyles = (theme) => ({
+const useStyles = theme => ({
   root: {
     maxWidth: 1500,
     marginTop: 80,
     margin: theme.spacing(2),
-    borderRadius: 16,
+    borderRadius: 16
   },
 
   papers: {
     display: "grid",
     gridTemplateColumns: "30% 30% 30%",
-    justifyContent: "center",
+    justifyContent: "center"
   },
 
   media: {
-    height: 140,
+    height: 140
   },
   a: {
     display: "inline-block",
     paddingLeft: "20px",
-    width: "180px",
-  },
+    width: "180px"
+  }
 });
 
 export class GetAllStudentsDetails extends Component {
@@ -37,22 +37,22 @@ export class GetAllStudentsDetails extends Component {
     super(props);
 
     this.state = {
-      studentsDetails: [],
+      studentsDetails: []
     };
   }
   componentDidMount() {
     axios
       .get("http://localhost:3000/students/details", {
         headers: {
-          Authorization: localStorage.getItem("jwt"),
-        },
+          Authorization: localStorage.getItem("jwt")
+        }
       })
-      .then((response) => {
+      .then(response => {
         this.setState({
-          studentsDetails: response.data.data,
+          studentsDetails: response.data.data
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error, "error");
       });
   }
@@ -73,7 +73,7 @@ export class GetAllStudentsDetails extends Component {
                       height: 130,
                       width: 130,
                       borderRadius: 100,
-                      marginTop: "20px",
+                      marginTop: "20px"
                     }}
                     src={filteredItem.profile_pic}
                   />
@@ -203,4 +203,5 @@ export class GetAllStudentsDetails extends Component {
     );
   }
 }
+
 export default withStyles(useStyles)(GetAllStudentsDetails);
