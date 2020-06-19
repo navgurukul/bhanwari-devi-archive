@@ -10,30 +10,28 @@ import axios from "axios";
 import { Grid } from "@material-ui/core";
 import "../styles/styles.css";
 
-// const useStyles = (theme) => ({
+// const useStyles = theme => ({
 //   root: {
 //     maxWidth: 1500,
 //     marginTop: 80,
 //     margin: theme.spacing(2),
-//     borderRadius:16,
-
+//     borderRadius: 16
 //   },
 
 //   papers: {
 //     display: "grid",
 //     gridTemplateColumns: "30% 30% 30%",
-//     justifyContent: "center",
+//     justifyContent: "center"
 //   },
 
 //   media: {
-//     height: 140,
+//     height: 140
 //   },
 //   a: {
 //     display: "inline-block",
 //     paddingLeft: "20px",
-//     width: "180px",
-
-//   },
+//     width: "180px"
+//   }
 // });
 
 export class GetAllStudentsDetails extends Component {
@@ -207,4 +205,6 @@ export class GetAllStudentsDetails extends Component {
     );
   }
 }
-export default withStyles(useStyles)(GetAllStudentsDetails);
+export default GetAllStudentsDetails;
+
+// export default withStyles(useStyles)(GetAllStudentsDetails);

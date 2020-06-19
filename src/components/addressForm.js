@@ -14,11 +14,11 @@ import { changeFetching } from "../store/actions/auth";
 import { randomStates } from "./states";
 import "../styles/styles.css";
 
-// var validEmailRe = RegExp(
-//   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-// );
+var validEmailRe = RegExp(
+  /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+);
 
-// const styles = (theme) => ({
+// const styles = theme => ({
 //   paper: {
 //     marginTop: theme.spacing(6),
 //     marginBottom: theme.spacing(3),
@@ -26,8 +26,8 @@ import "../styles/styles.css";
 //     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
 //       marginTop: theme.spacing(15),
 //       marginBottom: theme.spacing(6),
-//       padding: theme.spacing(3),
-//     },
+//       padding: theme.spacing(3)
+//     }
 //   },
 
 //   layout: {
@@ -37,22 +37,22 @@ import "../styles/styles.css";
 //     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
 //       width: 600,
 //       marginLeft: "auto",
-//       marginRight: "auto",
-//     },
+//       marginRight: "auto"
+//     }
 //   },
 
 //   buttons: {
 //     display: "flex",
-//     justifyContent: "flex-end",
+//     justifyContent: "flex-end"
 //   },
 
 //   option: {
 //     fontSize: 15,
 //     "& > span": {
 //       marginRight: 100,
-//       fontSize: 18,
-//     },
-//   },
+//       fontSize: 18
+//     }
+//   }
 // });
 
 export class addressForm extends Component {
@@ -274,7 +274,7 @@ export class addressForm extends Component {
       city.length > 0 &&
       pin_code.length > 6;
 
-    const { classes } = this.props;
+    // const { classes } = this.props;
 
     // const states = [
     //   { label: "Choose State" },
@@ -308,161 +308,160 @@ export class addressForm extends Component {
     // ];
     return (
       <React.Fragment>
-        <div>
-          <main className={classes.layout}>
-            <Paper className={classes.paper}>
-              {this.state.profile_pic ? (
+        <main className="layout">
+          {/* <main className={classes.layout}> */}
+          <Paper className="paper">
+            {this.state.profile_pic ? (
+              <center>
+                <img
+                  style={{ height: 150, width: 150, borderRadius: 100 }}
+                  src={this.state.profile_pic}
+                />
+              </center>
+            ) : (
+              <center>
+                <AccountCircleIcon
+                  style={{ height: 100, width: 100, color: "gray" }}
+                />
+              </center>
+            )}
+            <center>
+              <label htmlFor="file-upload" className="file-upload">
+                {" "}
+                Upload Profile
+              </label>
+              {this.fileUpload()}
+            </center>
+            <center>
+              <Typography colour="primary" variant="h6" gutterBottom>
+                Welcome to Navgurukul
+              </Typography>
+            </center>
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <TextField
+                  id="Name"
+                  name="name"
+                  label="Name of student"
+                  value={this.state.name}
+                  onChange={e => this.onChange(e)}
+                  fullWidth
+                />
+              </Grid>
+              <div style={{ color: "red" }}>{this.state.errors.name}</div>
+              <Grid item xs={12}>
+                <TextField
+                  id="Email"
+                  name="email"
+                  label="Email of student"
+                  value={this.state.email}
+                  onChange={e => this.onChange(e)}
+                  fullWidth
+                />
+              </Grid>
+              <div style={{ color: "red" }}>{this.state.errors.email}</div>
+              <Grid item xs={12}>
+                <TextField
+                  id="parents"
+                  name="parents_name"
+                  label="Name of parents"
+                  value={this.state.parents_name}
+                  onChange={e => this.onChange(e)}
+                  fullWidth
+                />
+              </Grid>
+              <div style={{ color: "red" }}>
+                {this.state.errors.parents_name}
+              </div>
+              <Grid item xs={12}>
+                <TextField
+                  id="address"
+                  name="address"
+                  label="Address"
+                  value={this.state.address}
+                  onChange={e => this.onChange(e)}
+                  fullWidth
+                />
+              </Grid>
+              <div style={{ color: "red" }}>{this.state.errors.address}</div>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  id="city"
+                  name="city"
+                  label="City"
+                  value={this.state.city}
+                  onChange={e => this.onChange(e)}
+                  fullWidth
+                />
+                <div style={{ color: "red" }}>{this.state.errors.city}</div>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <Autocomplete
+                  id="combo-box-demo"
+                  label="state"
+                  options={this.state.States}
+                  getOptionLabel={option => option.label}
+                  onChange={(event, value) =>
+                    this.setState({ state: value.label })
+                  }
+                  renderInput={params => (
+                    <TextField {...params} label={"State"} />
+                  )}
+                />
+                <div style={{ color: "red" }}>{this.state.errors.state}</div>
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  id="zip"
+                  name="pin_code"
+                  type="number"
+                  label="PIN"
+                  maxLength="6"
+                  value={this.state.pin_code}
+                  placeholder="Integer"
+                  onChange={e => this.onChange(e)}
+                  fullWidth
+                />
+              </Grid>
+              <div style={{ color: "red" }}>{this.state.errors.pin_code}</div>
+              {this.state.indemnity_form && (
                 <center>
-                  <img
-                    style={{ height: 150, width: 150, borderRadius: 100 }}
-                    src={this.state.profile_pic}
-                  />
-                </center>
-              ) : (
-                <center>
-                  <AccountCircleIcon
-                    style={{ height: 100, width: 100, color: "gray" }}
-                  />
+                  <iframe
+                    src={this.state.indemnity_form}
+                    style={{
+                      width: 570,
+                      height: 500,
+                      marginTop: 25,
+                      marginBottom: 25
+                    }}
+                    frameBorder="0"
+                  ></iframe>
                 </center>
               )}
-              <center>
+              <Grid item xs={12} xs={6}>
                 <label htmlFor="file-upload" className="file-upload">
                   {" "}
-                  Upload Profile
+                  Upload Indemnity Form
                 </label>
                 {this.fileUpload()}
-              </center>
-              <center>
-                <Typography colour="primary" variant="h6" gutterBottom>
-                  Welcome to Navgurukul
-                </Typography>
-              </center>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <TextField
-                    id="Name"
-                    name="name"
-                    label="Name of student"
-                    value={this.state.name}
-                    onChange={e => this.onChange(e)}
-                    fullWidth
-                  />
-                </Grid>
-                <div style={{ color: "red" }}>{this.state.errors.name}</div>
-                <Grid item xs={12}>
-                  <TextField
-                    id="Email"
-                    name="email"
-                    label="Email of student"
-                    value={this.state.email}
-                    onChange={e => this.onChange(e)}
-                    fullWidth
-                  />
-                </Grid>
-                <div style={{ color: "red" }}>{this.state.errors.email}</div>
-                <Grid item xs={12}>
-                  <TextField
-                    id="parents"
-                    name="parents_name"
-                    label="Name of parents"
-                    value={this.state.parents_name}
-                    onChange={e => this.onChange(e)}
-                    fullWidth
-                  />
-                </Grid>
-                <div style={{ color: "red" }}>
-                  {this.state.errors.parents_name}
-                </div>
-                <Grid item xs={12}>
-                  <TextField
-                    id="address"
-                    name="address"
-                    label="Address"
-                    value={this.state.address}
-                    onChange={e => this.onChange(e)}
-                    fullWidth
-                  />
-                </Grid>
-                <div style={{ color: "red" }}>{this.state.errors.address}</div>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    id="city"
-                    name="city"
-                    label="City"
-                    value={this.state.city}
-                    onChange={e => this.onChange(e)}
-                    fullWidth
-                  />
-                  <div style={{ color: "red" }}>{this.state.errors.city}</div>
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <Autocomplete
-                    id="combo-box-demo"
-                    label="state"
-                    options={this.state.States}
-                    getOptionLabel={option => option.label}
-                    onChange={(event, value) =>
-                      this.setState({ state: value.label })
-                    }
-                    renderInput={params => (
-                      <TextField {...params} label={"State"} />
-                    )}
-                  />
-                  <div style={{ color: "red" }}>{this.state.errors.state}</div>
-                </Grid>
-
-                <Grid item xs={12}>
-                  <TextField
-                    id="zip"
-                    name="pin_code"
-                    type="number"
-                    label="PIN"
-                    maxLength="6"
-                    value={this.state.pin_code}
-                    placeholder="Integer"
-                    onChange={e => this.onChange(e)}
-                    fullWidth
-                  />
-                </Grid>
-                <div style={{ color: "red" }}>{this.state.errors.pin_code}</div>
-                {this.state.indemnity_form && (
-                  <center>
-                    <iframe
-                      src={this.state.indemnity_form}
-                      style={{
-                        width: 570,
-                        height: 500,
-                        marginTop: 25,
-                        marginBottom: 25
-                      }}
-                      frameBorder="0"
-                    ></iframe>
-                  </center>
-                )}
-                <Grid item xs={12} xs={6}>
-                  <label htmlFor="file-upload" className="file-upload">
-                    {" "}
-                    Upload Indemnity Form
-                  </label>
-                  {this.fileUpload()}
-                </Grid>
-                <Grid item xs={12} xs={6}>
-                  <div className={classes.buttons}>
-                    <Button
-                      disabled={!isEnabled}
-                      variant="contained"
-                      color="primary"
-                      onClick={this.submit}
-                    >
-                      submit
-                    </Button>
-                  </div>
-                </Grid>
               </Grid>
-            </Paper>
-          </main>
-        </div>
+              <Grid item xs={12} xs={6}>
+                <div className="buttons">
+                  <Button
+                    disabled={!isEnabled}
+                    variant="contained"
+                    color="primary"
+                    onClick={this.submit}
+                  >
+                    submit
+                  </Button>
+                </div>
+              </Grid>
+            </Grid>
+          </Paper>
+        </main>
       </React.Fragment>
     );
   }
