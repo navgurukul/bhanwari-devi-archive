@@ -53,7 +53,7 @@ const styles = (theme) => ({
   },
 });
 
-export class addressForm extends Component {
+export class AddressForm extends Component {
   constructor(props) {
     super(props);
 
@@ -68,14 +68,12 @@ export class addressForm extends Component {
       profile_pic: "",
       indemnity_form: "",
       fileType: "",
-
       errors: {
         name: "",
         email: "",
         parents_name: "",
         address: "",
         city: "",
-        state: "",
         pin_code: "",
       },
     };
@@ -133,34 +131,28 @@ export class addressForm extends Component {
       case "name":
         newErros.name =
           value.length > 5 ? "" : "Full Name must be 5 characters long!";
-
+          break;
       case "email":
         newErros.email = validEmailRe.test(value) ? "" : "Email is not valid!";
-
+        break;
       case "parents_name":
         newErros.parents_name =
           value.length > 5 ? "" : "Full Name must be 5 characters long!";
-
+          break;
       case "address":
         newErros.address =
           value.length > 5 ? "" : "Full Name must be 5 characters long!";
-
-      case "state":
-        newErros.state =
-          value.length > 5 ? "" : "Full Name must be 5 characters long!";
-
+          break;
       case "city":
         newErros.city = value.length > 0 ? "" : "field cannot be empty";
-
+        break;
       case "pin_code":
         newErros.pin_code =
           value.length < 6 ? "pin_code must be long at least 6 digit!" : "";
-
+          break;
       default:
         break;
     }
-    // const{name,value}= event.target;
-    // this.setState({[name]:value});
     this.setState({
       errors: newErros,
       [name]: value,
@@ -254,12 +246,12 @@ export class addressForm extends Component {
   );
 
   render() {
+    
     const {
       email,
       name,
       parents_name,
       address,
-      state,
       city,
       pin_code,
     } = this.state;
@@ -270,7 +262,7 @@ export class addressForm extends Component {
       parents_name.length > 5 &&
       address.length > 5 &&
       city.length > 0 &&
-      pin_code.length > 6;
+      pin_code.length > 5;
 
     const { classes } = this.props;
 
@@ -304,6 +296,9 @@ export class addressForm extends Component {
       { label: "Uttarakhand" },
       { label: "West Bengal" },
     ];
+    //  const {student} = props;
+     
+    console.log(this.props.student,"llllllllllllllllll")
     return (
       <React.Fragment>
         <div>
@@ -393,23 +388,20 @@ export class addressForm extends Component {
                   />
                   <div style={{ color: "red" }}>{this.state.errors.city}</div>
                 </Grid>
-
-                <Grid item xs={12} sm={6}>
+                 <Grid item xs={12} sm={6}>
                   <Autocomplete
                     id="combo-box-demo"
                     label="state"
                     options={states}
                     getOptionLabel={(option) => option.label}
                     onChange={(event, value) =>
-                      this.setState({ state: value.label })
+                    this.setState({ state: value.label })
                     }
                     renderInput={(params) => (
                       <TextField {...params} label={"State"} />
                     )}
                   />
-                  <div style={{ color: "red" }}>{this.state.errors.state}</div>
                 </Grid>
-
                 <Grid item xs={12}>
                   <TextField
                     id="zip"
@@ -453,7 +445,7 @@ export class addressForm extends Component {
                       color="primary"
                       onClick={this.submit}
                     >
-                      submit
+                     SUBMIT
                     </Button>
                   </div>
                 </Grid>
@@ -474,4 +466,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   undefined,
   mapDispatchToProps
-)(withStyles(styles)(withSnackbar(addressForm)));
+)(withStyles(styles)(withSnackbar(AddressForm)));
