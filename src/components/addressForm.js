@@ -11,12 +11,14 @@ import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { connect } from "react-redux";
 import { changeFetching } from "../store/actions/auth";
+import { withRouter } from "react-router-dom";
+
 
 var validEmailRe = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 );
 
-const styles = theme => ({
+const styles = (theme) => ({
   paper: {
     marginTop: theme.spacing(6),
     marginBottom: theme.spacing(3),
@@ -24,8 +26,8 @@ const styles = theme => ({
     [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
       marginTop: theme.spacing(15),
       marginBottom: theme.spacing(6),
-      padding: theme.spacing(3)
-    }
+      padding: theme.spacing(3),
+    },
   },
 
   layout: {
@@ -35,22 +37,22 @@ const styles = theme => ({
     [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
       width: 600,
       marginLeft: "auto",
-      marginRight: "auto"
-    }
+      marginRight: "auto",
+    },
   },
 
   buttons: {
     display: "flex",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
 
   option: {
     fontSize: 15,
     "& > span": {
       marginRight: 100,
-      fontSize: 18
-    }
-  }
+      fontSize: 18,
+    },
+  },
 });
 
 export class AddressForm extends Component {
@@ -74,13 +76,14 @@ export class AddressForm extends Component {
         parents_name: "",
         address: "",
         city: "",
-        pin_code: ""
-      }
+        pin_code: "",
+      },
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props && props.student) {
+
+  componentDidMount(){
+      if (this.props && this.props.student) {
       const {
         name,
         email,
@@ -91,9 +94,9 @@ export class AddressForm extends Component {
         pin_code,
         profile_pic,
         indemnity_form,
-        fileType
-      } = props.student;
-      return {
+        fileType,
+      } = this.props.student;
+      this.setState({
         name: name,
         email: email,
         parents_name: parents_name,
@@ -103,33 +106,36 @@ export class AddressForm extends Component {
         pin_code: pin_code,
         profile_pic: profile_pic,
         indemnity_form: indemnity_form,
-        fileType: fileType
-      };
+        fileType: fileType,
+      })
+      
+      
     }
+  
+    
 
-    return null;
   }
-
-  fileChangedHandler = async event => {
+  
+  fileChangedHandler = async (event) => {
     if (event.target.files[0].type === "application/pdf") {
       this.setState({
-        fileType: "indemnityForm"
+        fileType: "indemnityForm",
       });
     } else {
       this.setState({
-        fileType: "profilePic"
+        fileType: "profilePic",
       });
     }
     await this.UpdateProfileData(event.target.files[0]);
   };
 
-  UpdateProfileData = async file => {
+  UpdateProfileData = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
     const config = {
       headers: {
-        "content-type": "multipart/form-data"
-      }
+        "content-type": "multipart/form-data",
+      },
     };
     this.props.fetchingStart();
     axios
@@ -138,22 +144,22 @@ export class AddressForm extends Component {
         formData,
         config
       )
-      .then(res => {
+      .then((res) => {
         if (this.state.fileType === "profilePic") {
           this.setState({
-            profile_pic: res.data.fileUrl
+            profile_pic: res.data.fileUrl,
           });
           this.props.fetchingFinish();
         } else {
           this.setState({
-            indemnity_form: res.data.fileUrl
+            indemnity_form: res.data.fileUrl,
           });
           this.props.fetchingFinish();
         }
       });
   };
 
-  onChange = e => {
+  onChange = (e) => {
     const { name, value } = e.target;
     let errors = this.state.errors;
     const newErros = { ...errors };
@@ -186,13 +192,14 @@ export class AddressForm extends Component {
     }
     this.setState({
       errors: newErros,
-      [name]: value
+      [name]: value,
     });
   };
 
-  submit = () => {
+  submit = (e) => {
     //Add the logic for validation
     //if data is valid
+    e.preventDefault();
     const {
       email,
       name,
@@ -202,7 +209,7 @@ export class AddressForm extends Component {
       state,
       pin_code,
       profile_pic,
-      indemnity_form
+      indemnity_form,
     } = this.state;
     if (
       email &&
@@ -221,7 +228,7 @@ export class AddressForm extends Component {
         method: "POST",
         url: "http://localhost:3000/students/details",
         headers: {
-          Authorization: localStorage.getItem("jwt")
+          Authorization: localStorage.getItem("jwt"),
         },
         data: {
           name: this.state.name,
@@ -232,9 +239,9 @@ export class AddressForm extends Component {
           state: this.state.state,
           pin_code: this.state.pin_code,
           profile_pic: this.state.profile_pic,
-          indemnity_form: this.state.indemnity_form
-        }
-      }).then(Response => {
+          indemnity_form: this.state.indemnity_form,
+        },
+      }).then((Response) => {
         console.log(Response);
         localStorage.setItem("user", JSON.stringify(Response.data.data[0]));
         if (Response.data) {
@@ -242,8 +249,8 @@ export class AddressForm extends Component {
             variant: "success",
             anchorOrigin: {
               vertical: "bottom",
-              horizontal: "left"
-            }
+              horizontal: "left",
+            },
           });
           this.setState({
             name: "",
@@ -255,10 +262,11 @@ export class AddressForm extends Component {
             pin_code: "",
             profile_pic: "",
             indemnity_form: "",
-            fileType: ""
+            fileType: "",
           });
           const { history } = this.props;
-          history.push("/getAllStudentsDetails");
+          this.props.history.push("/getAllStudentsDetails");
+         
         }
       });
     } else {
@@ -266,8 +274,8 @@ export class AddressForm extends Component {
         variant: "error",
         anchorOrigin: {
           vertical: "bottom",
-          horizontal: "left"
-        }
+          horizontal: "left",
+        },
       });
     }
   };
@@ -277,8 +285,8 @@ export class AddressForm extends Component {
   );
 
   render() {
+    console.log(this.props)
     const { email, name, parents_name, address, city, pin_code } = this.state;
-
     const isEnabled =
       validEmailRe.test(email) &&
       name.length > 5 &&
@@ -317,11 +325,11 @@ export class AddressForm extends Component {
       { label: "Tripura" },
       { label: "Uttar Pradesh	" },
       { label: "Uttarakhand" },
-      { label: "West Bengal" }
+      { label: "West Bengal" },
     ];
-    //  const {student} = props;
 
-    console.log(this.props.student, "llllllllllllllllll");
+    console.log(this.state. parents_name);
+  
     return (
       <React.Fragment>
         <div>
@@ -360,7 +368,7 @@ export class AddressForm extends Component {
                     name="name"
                     label="Name of student"
                     value={this.state.name}
-                    onChange={e => this.onChange(e)}
+                    onChange={(e) => this.onChange(e)}
                     fullWidth
                   />
                 </Grid>
@@ -371,7 +379,7 @@ export class AddressForm extends Component {
                     name="email"
                     label="Email of student"
                     value={this.state.email}
-                    onChange={e => this.onChange(e)}
+                    onChange={(e) => this.onChange(e)}
                     fullWidth
                   />
                 </Grid>
@@ -382,7 +390,7 @@ export class AddressForm extends Component {
                     name="parents_name"
                     label="Name of parents"
                     value={this.state.parents_name}
-                    onChange={e => this.onChange(e)}
+                    onChange={(e) => this.onChange(e)}
                     fullWidth
                   />
                 </Grid>
@@ -395,7 +403,7 @@ export class AddressForm extends Component {
                     name="address"
                     label="Address"
                     value={this.state.address}
-                    onChange={e => this.onChange(e)}
+                    onChange={(e) => this.onChange(e)}
                     fullWidth
                   />
                 </Grid>
@@ -406,7 +414,7 @@ export class AddressForm extends Component {
                     name="city"
                     label="City"
                     value={this.state.city}
-                    onChange={e => this.onChange(e)}
+                    onChange={(e) => this.onChange(e)}
                     fullWidth
                   />
                   <div style={{ color: "red" }}>{this.state.errors.city}</div>
@@ -416,11 +424,11 @@ export class AddressForm extends Component {
                     id="combo-box-demo"
                     label="state"
                     options={states}
-                    getOptionLabel={option => option.label}
+                    getOptionLabel={(option) => option.label}
                     onChange={(event, value) =>
                       this.setState({ state: value.label })
                     }
-                    renderInput={params => (
+                    renderInput={(params) => (
                       <TextField {...params} label={"State"} />
                     )}
                   />
@@ -434,7 +442,7 @@ export class AddressForm extends Component {
                     maxLength="6"
                     value={this.state.pin_code}
                     placeholder="Integer"
-                    onChange={e => this.onChange(e)}
+                    onChange={(e) => this.onChange(e)}
                     fullWidth
                   />
                 </Grid>
@@ -447,7 +455,7 @@ export class AddressForm extends Component {
                         width: 570,
                         height: 500,
                         marginTop: 25,
-                        marginBottom: 25
+                        marginBottom: 25,
                       }}
                       frameBorder="0"
                     ></iframe>
@@ -481,12 +489,12 @@ export class AddressForm extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchingStart: () => dispatch(changeFetching(true)),
-  fetchingFinish: () => dispatch(changeFetching(false))
+  fetchingFinish: () => dispatch(changeFetching(false)),
 });
 
 export default connect(
   undefined,
   mapDispatchToProps
-)(withStyles(styles)(withSnackbar(AddressForm)));
+)(withStyles(styles)(withSnackbar(withRouter(AddressForm))));

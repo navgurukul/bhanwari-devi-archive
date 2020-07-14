@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { makeStyles } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core/styles";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
@@ -8,7 +7,6 @@ import Paper from "@material-ui/core/Paper";
 import axios from "axios";
 import EditIcon from "@material-ui/icons/Edit";
 import { Grid, Button } from "@material-ui/core";
-// import EditProfile from "./EditProfile"
 import AddressForm from "./addressForm";
 
 const useStyles = theme => ({
@@ -67,17 +65,20 @@ export class GetAllStudentsDetails extends Component {
       student: data,
       showForm: true
     });
-    // const { history } = this.props;
-    // history.push("/addressForm");
+   
   };
 
   render() {
     const { classes } = this.props;
-    //Render Addressform or studentdetails depending on editing mode
+    console.log(this.state.showForm,"showForm")
+    // console.log("PPPPPPPPPPPPPPPPPPP")
+  
     if (this.state.showForm) {
-      // const { history } = this.props;
-      return <AddressForm student={this.state.student} />;
+      
+      return (<AddressForm student={this.state.student}/>);
     } else {
+      // console.log("-----------------")
+
       return (
         <div>
           <Grid
@@ -230,9 +231,6 @@ export class GetAllStudentsDetails extends Component {
               </Grid>
             ))}
           </Grid>
-          {/* <Grid> */}
-          {/* {this.state.showForm && <AddressForm student={this.state.student} />} */}
-          {/* </Grid> */}
         </div>
       );
     }
