@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { connect } from "react-redux";
 import { changeFetching } from "../store/actions/auth";
+import { withRouter } from "react-router-dom";
 
 var validEmailRe = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -53,7 +54,7 @@ const styles = theme => ({
   }
 });
 
-export class addressForm extends Component {
+export class AddressForm extends Component {
   constructor(props) {
     super(props);
 
@@ -68,20 +69,47 @@ export class addressForm extends Component {
       profile_pic: "",
       indemnity_form: "",
       fileType: "",
-
       errors: {
         name: "",
         email: "",
         parents_name: "",
         address: "",
         city: "",
-        state: "",
-        pin_code: ""
-      }
+        pin_code: "",
+      },
     };
   }
 
-  fileChangedHandler = async event => {
+  componentDidMount() {
+    if (this.props && this.props.student) {
+      const {
+        name,
+        email,
+        parents_name,
+        address,
+        city,
+        state,
+        pin_code,
+        profile_pic,
+        indemnity_form,
+        fileType,
+      } = this.props.student;
+      this.setState({
+        name: name,
+        email: email,
+        parents_name: parents_name,
+        address: address,
+        city: city,
+        state: state,
+        pin_code: pin_code,
+        profile_pic: profile_pic,
+        indemnity_form: indemnity_form,
+        fileType: fileType,
+      });
+    }
+  }
+
+  fileChangedHandler = async (event) => {
     if (event.target.files[0].type === "application/pdf") {
       this.setState({
         fileType: "indemnityForm"
@@ -133,43 +161,38 @@ export class addressForm extends Component {
       case "name":
         newErros.name =
           value.length > 5 ? "" : "Full Name must be 5 characters long!";
-
+        break;
       case "email":
         newErros.email = validEmailRe.test(value) ? "" : "Email is not valid!";
-
+        break;
       case "parents_name":
         newErros.parents_name =
           value.length > 5 ? "" : "Full Name must be 5 characters long!";
-
+        break;
       case "address":
         newErros.address =
           value.length > 5 ? "" : "Full Name must be 5 characters long!";
-
-      case "state":
-        newErros.state =
-          value.length > 5 ? "" : "Full Name must be 5 characters long!";
-
+        break;
       case "city":
         newErros.city = value.length > 0 ? "" : "field cannot be empty";
-
+        break;
       case "pin_code":
         newErros.pin_code =
           value.length < 6 ? "pin_code must be long at least 6 digit!" : "";
-
+        break;
       default:
         break;
     }
-    // const{name,value}= event.target;
-    // this.setState({[name]:value});
     this.setState({
       errors: newErros,
       [name]: value
     });
   };
 
-  submit = () => {
+  submit = (e) => {
     //Add the logic for validation
     //if data is valid
+    e.preventDefault();
     const {
       email,
       name,
@@ -235,7 +258,7 @@ export class addressForm extends Component {
             fileType: ""
           });
           const { history } = this.props;
-          history.push("/getAllStudentsDetails");
+          this.props.history.push("/getAllStudentsDetails");
         }
       });
     } else {
@@ -254,15 +277,8 @@ export class addressForm extends Component {
   );
 
   render() {
-    const {
-      email,
-      name,
-      parents_name,
-      address,
-      state,
-      city,
-      pin_code
-    } = this.state;
+    // console.log(this.props)
+    const { email, name, parents_name, address, city, pin_code } = this.state;
 
     const isEnabled =
       validEmailRe.test(email) &&
@@ -270,7 +286,7 @@ export class addressForm extends Component {
       parents_name.length > 5 &&
       address.length > 5 &&
       city.length > 0 &&
-      pin_code.length > 6;
+      pin_code.length > 5;
 
     const { classes } = this.props;
 
@@ -304,6 +320,7 @@ export class addressForm extends Component {
       { label: "Uttarakhand" },
       { label: "West Bengal" }
     ];
+
     return (
       <React.Fragment>
         <main className={classes.layout}>
@@ -455,6 +472,89 @@ export class addressForm extends Component {
                     submit
                   </Button>
                 </div>
+                <Grid item xs={12}>
+                  <TextField
+                    id="address"
+                    name="address"
+                    label="Address"
+                    value={this.state.address}
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                </Grid>
+                <div style={{ color: "red" }}>{this.state.errors.address}</div>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="city"
+                    name="city"
+                    label="City"
+                    value={this.state.city}
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                  <div style={{ color: "red" }}>{this.state.errors.city}</div>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Autocomplete
+                    id="combo-box-demo"
+                    label="state"
+                    options={states}
+                    getOptionLabel={(option) => option.label}
+                    onChange={(event, value) =>
+                      this.setState({ state: value.label })
+                    }
+                    renderInput={(params) => (
+                      <TextField {...params} label={"State"} />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="zip"
+                    name="pin_code"
+                    type="number"
+                    label="PIN"
+                    maxLength="6"
+                    value={this.state.pin_code}
+                    placeholder="Integer"
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                </Grid>
+                <div style={{ color: "red" }}>{this.state.errors.pin_code}</div>
+                {this.state.indemnity_form && (
+                  <center>
+                    <iframe
+                      src={this.state.indemnity_form}
+                      style={{
+                        width: 570,
+                        height: 500,
+                        marginTop: 25,
+                        marginBottom: 25,
+                      }}
+                      frameBorder="0"
+                    ></iframe>
+                  </center>
+                )}
+                <Grid item xs={12} xs={6}>
+                  <label htmlFor="file-upload" className="file-upload">
+                    {" "}
+                    Upload Indemnity Form
+                  </label>
+                  {this.fileUpload()}
+                </Grid>
+                <Grid item xs={12} xs={6}>
+                  <div className={classes.buttons}>
+                    <Button
+                      disabled={!isEnabled}
+                      variant="contained"
+                      color="primary"
+                      onClick={this.submit}
+                    >
+                      SUBMIT
+                    </Button>
+                  </div>
+                </Grid>
               </Grid>
             </Grid>
           </Paper>
@@ -472,4 +572,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   undefined,
   mapDispatchToProps
-)(withStyles(styles)(withSnackbar(addressForm)));
+)(withStyles(styles)(withSnackbar(withRouter(AddressForm))));
