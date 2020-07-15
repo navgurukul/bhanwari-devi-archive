@@ -13,7 +13,6 @@ import { connect } from "react-redux";
 import { changeFetching } from "../store/actions/auth";
 import { withRouter } from "react-router-dom";
 
-
 var validEmailRe = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 );
@@ -81,9 +80,8 @@ export class AddressForm extends Component {
     };
   }
 
-
-  componentDidMount(){
-      if (this.props && this.props.student) {
+  componentDidMount() {
+    if (this.props && this.props.student) {
       const {
         name,
         email,
@@ -107,15 +105,10 @@ export class AddressForm extends Component {
         profile_pic: profile_pic,
         indemnity_form: indemnity_form,
         fileType: fileType,
-      })
-      
-      
+      });
     }
-  
-    
-
   }
-  
+
   fileChangedHandler = async (event) => {
     if (event.target.files[0].type === "application/pdf") {
       this.setState({
@@ -266,7 +259,6 @@ export class AddressForm extends Component {
           });
           const { history } = this.props;
           this.props.history.push("/getAllStudentsDetails");
-         
         }
       });
     } else {
@@ -285,7 +277,7 @@ export class AddressForm extends Component {
   );
 
   render() {
-    console.log(this.props)
+    // console.log(this.props)
     const { email, name, parents_name, address, city, pin_code } = this.state;
     const isEnabled =
       validEmailRe.test(email) &&
@@ -328,8 +320,6 @@ export class AddressForm extends Component {
       { label: "West Bengal" },
     ];
 
-    console.log(this.state. parents_name);
-  
     return (
       <React.Fragment>
         <div>

@@ -14,8 +14,6 @@ import { createBrowserHistory } from "history";
 
 
 const customHistory = createBrowserHistory();
-
-
 const AppRouter = () => {
   console.log(history,"HIstory")
   return(<Router history={history}>

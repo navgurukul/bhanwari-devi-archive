@@ -9,28 +9,28 @@ import EditIcon from "@material-ui/icons/Edit";
 import { Grid, Button } from "@material-ui/core";
 import AddressForm from "./addressForm";
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
   root: {
     maxWidth: 1500,
     marginTop: 80,
     margin: theme.spacing(2),
-    borderRadius: 16
+    borderRadius: 16,
   },
 
   papers: {
     display: "grid",
     gridTemplateColumns: "30% 30% 30%",
-    justifyContent: "center"
+    justifyContent: "center",
   },
 
   media: {
-    height: 140
+    height: 140,
   },
   a: {
     display: "inline-block",
     paddingLeft: "20px",
-    width: "180px"
-  }
+    width: "180px",
+  },
 });
 
 export class GetAllStudentsDetails extends Component {
@@ -39,46 +39,39 @@ export class GetAllStudentsDetails extends Component {
 
     this.state = {
       studentsDetails: [],
-      showForm: false
+      showForm: false,
     };
   }
   componentDidMount() {
     axios
       .get("http://localhost:3000/students/details", {
         headers: {
-          Authorization: localStorage.getItem("jwt")
-        }
+          Authorization: localStorage.getItem("jwt"),
+        },
       })
-      .then(response => {
+      .then((response) => {
         this.setState({
-          studentsDetails: response.data.data
+          studentsDetails: response.data.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error, "error");
       });
   }
 
-  submit = data => {
-    console.log(data);
+  submit = (data) => {
     this.setState({
       student: data,
-      showForm: true
+      showForm: true,
     });
-   
   };
 
   render() {
     const { classes } = this.props;
-    console.log(this.state.showForm,"showForm")
-    // console.log("PPPPPPPPPPPPPPPPPPP")
-  
-    if (this.state.showForm) {
-      
-      return (<AddressForm student={this.state.student}/>);
-    } else {
-      // console.log("-----------------")
 
+    if (this.state.showForm) {
+      return <AddressForm student={this.state.student} />;
+    } else {
       return (
         <div>
           <Grid
@@ -95,7 +88,7 @@ export class GetAllStudentsDetails extends Component {
                           height: 130,
                           width: 130,
                           borderRadius: 100,
-                          marginTop: "20px"
+                          marginTop: "20px",
                         }}
                         src={filteredItem.profile_pic}
                       />
