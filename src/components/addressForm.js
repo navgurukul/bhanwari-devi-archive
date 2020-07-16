@@ -472,7 +472,7 @@ export class AddressForm extends Component {
                     submit
                   </Button>
                 </div>
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <TextField
                     id="address"
                     name="address"
@@ -554,7 +554,7 @@ export class AddressForm extends Component {
                       SUBMIT
                     </Button>
                   </div>
-                </Grid>
+                </Grid> */}
               </Grid>
             </Grid>
           </Paper>
