@@ -472,6 +472,89 @@ export class AddressForm extends Component {
                     submit
                   </Button>
                 </div>
+                <Grid item xs={12}>
+                  <TextField
+                    id="address"
+                    name="address"
+                    label="Address"
+                    value={this.state.address}
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                </Grid>
+                <div style={{ color: "red" }}>{this.state.errors.address}</div>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    id="city"
+                    name="city"
+                    label="City"
+                    value={this.state.city}
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                  <div style={{ color: "red" }}>{this.state.errors.city}</div>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Autocomplete
+                    id="combo-box-demo"
+                    label="state"
+                    options={states}
+                    getOptionLabel={(option) => option.label}
+                    onChange={(event, value) =>
+                      this.setState({ state: value.label })
+                    }
+                    renderInput={(params) => (
+                      <TextField {...params} label={"State"} />
+                    )}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    id="zip"
+                    name="pin_code"
+                    type="number"
+                    label="PIN"
+                    maxLength="6"
+                    value={this.state.pin_code}
+                    placeholder="Integer"
+                    onChange={(e) => this.onChange(e)}
+                    fullWidth
+                  />
+                </Grid>
+                <div style={{ color: "red" }}>{this.state.errors.pin_code}</div>
+                {this.state.indemnity_form && (
+                  <center>
+                    <iframe
+                      src={this.state.indemnity_form}
+                      style={{
+                        width: 570,
+                        height: 500,
+                        marginTop: 25,
+                        marginBottom: 25,
+                      }}
+                      frameBorder="0"
+                    ></iframe>
+                  </center>
+                )}
+                <Grid item xs={12} xs={6}>
+                  <label htmlFor="file-upload" className="file-upload">
+                    {" "}
+                    Upload Indemnity Form
+                  </label>
+                  {this.fileUpload()}
+                </Grid>
+                <Grid item xs={12} xs={6}>
+                  <div className={classes.buttons}>
+                    <Button
+                      disabled={!isEnabled}
+                      variant="contained"
+                      color="primary"
+                      onClick={this.submit}
+                    >
+                      SUBMIT
+                    </Button>
+                  </div>
+                </Grid>
               </Grid>
             </Grid>
           </Paper>
