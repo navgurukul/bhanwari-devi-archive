@@ -44,7 +44,7 @@ export class GetAllStudentsDetails extends Component {
   }
   componentDidMount() {
     axios
-      .get("http://localhost:3000/students/details", {
+      .get("students/details", {
         headers: {
           Authorization: localStorage.getItem("jwt")
         }

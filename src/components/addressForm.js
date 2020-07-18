@@ -133,7 +133,7 @@ export class AddressForm extends Component {
     this.props.fetchingStart();
     axios
       .post(
-        "http://localhost:3000/students/details/upload_file/profilePic",
+        "students/details/upload_file/profilePic",
         formData,
         config
       )
@@ -219,7 +219,7 @@ export class AddressForm extends Component {
       console.log("What is the problam ? are you made?");
       axios({
         method: "POST",
-        url: "http://localhost:3000/students/details",
+        url: "students/details",
         headers: {
           Authorization: localStorage.getItem("jwt"),
         },
