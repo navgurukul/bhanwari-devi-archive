@@ -44,7 +44,7 @@ export class GetAllStudentsDetails extends Component {
   }
   componentDidMount() {
     axios
-      .get("students/details", {
+      .get("http://localhost:3000/students/details", {
         headers: {
           Authorization: localStorage.getItem("jwt")
         }
@@ -60,6 +60,7 @@ export class GetAllStudentsDetails extends Component {
   }
 
   submit = (data) => {
+    console.log(data)
     this.setState({
       student: data,
       showForm: true,
@@ -70,7 +71,7 @@ export class GetAllStudentsDetails extends Component {
     const { classes } = this.props;
     if (this.state.showForm) {
       return <AddressForm student={this.state.student} />;
-    } else {
+    }else{
       return (
         <div>
           <Grid

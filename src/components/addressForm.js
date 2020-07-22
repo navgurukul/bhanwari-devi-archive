@@ -133,7 +133,7 @@ export class AddressForm extends Component {
     this.props.fetchingStart();
     axios
       .post(
-        "students/details/upload_file/profilePic",
+        "http://localhost:3000/students/details/upload_file/profilePic",
         formData,
         config
       )
@@ -156,8 +156,11 @@ export class AddressForm extends Component {
     const { name, value } = e.target;
     let errors = this.state.errors;
     const newErros = { ...errors };
-
-    switch (name) {
+    // if (this.state.disabled) {
+    //     this.setState({ disabled: false });
+    //   }
+    
+  switch (name) {
       case "name":
         newErros.name =
           value.length > 5 ? "" : "Full Name must be 5 characters long!";
@@ -219,7 +222,7 @@ export class AddressForm extends Component {
       console.log("What is the problam ? are you made?");
       axios({
         method: "POST",
-        url: "students/details",
+        url: "http://localhost:3000/students/details",
         headers: {
           Authorization: localStorage.getItem("jwt"),
         },
@@ -371,6 +374,10 @@ export class AddressForm extends Component {
                   value={this.state.email}
                   onChange={(e) => this.onChange(e)}
                   fullWidth
+                  // disabled = {this.state ? true:false}
+                  // disabled = {true}
+               
+            
                 />
               </Grid>
               <div style={{ color: "red" }}>{this.state.errors.email}</div>
