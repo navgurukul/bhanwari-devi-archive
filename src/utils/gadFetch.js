@@ -1,18 +1,20 @@
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
-
+// import file from '../components/addressForm';
 import history from './history';
 
 const BASE_URL = process.env.API_URL;
 
 
-export default async function ngFetch(url, method='GET', options={}, useAuth=true) {
+export default async function ngFetch(url, method='GET', options={}, config = {},useAuth=true) {
+
   const opts = {
     url: `${BASE_URL}${url}`,
     method,
-    ...options
-  };
-
+    data: options,
+    ...config
+  }
+  
   if (useAuth) {
     const jwt = localStorage.getItem('jwt');
     if (opts.headers) {
@@ -28,6 +30,7 @@ export default async function ngFetch(url, method='GET', options={}, useAuth=tru
     console.log(resp);
     return resp;
   } catch (err) {
+    console.log(err)
     if (err.response.status === 401) {
       localStorage.removeItem('jwt');
       history.push('/dsasdasd')
@@ -35,3 +38,7 @@ export default async function ngFetch(url, method='GET', options={}, useAuth=tru
     console.log(err.response);
   }
 }
+
+ 
+
+

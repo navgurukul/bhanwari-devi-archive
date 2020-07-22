@@ -12,6 +12,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { connect } from "react-redux";
 import { changeFetching } from "../store/actions/auth";
 import { withRouter } from "react-router-dom";
+import NgFetch from "../utils/gadFetch"
 
 var validEmailRe = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -123,6 +124,7 @@ export class AddressForm extends Component {
   };
 
   UpdateProfileData = async (file) => {
+    
     const formData = new FormData();
     formData.append("file", file);
     const config = {
@@ -130,14 +132,11 @@ export class AddressForm extends Component {
         "content-type": "multipart/form-data",
       },
     };
+   
     this.props.fetchingStart();
-    axios
-      .post(
-        "students/details/upload_file/profilePic",
-        formData,
-        config
-      )
-      .then((res) => {
+    await NgFetch("students/details/upload_file/profilePic", "POST", formData, config, false )
+    .then((res) => {
+        console.log(res,"==================")
         if (this.state.fileType === "profilePic") {
           this.setState({
             profile_pic: res.data.fileUrl,
