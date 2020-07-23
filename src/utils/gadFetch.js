@@ -7,11 +7,10 @@ const BASE_URL = process.env.API_URL;
 
 
 export default async function ngFetch(url, method='GET', options={}, config = {},useAuth=true) {
-
   const opts = {
     url: `${BASE_URL}${url}`,
     method,
-    data: options,
+    data:options,
     ...config
   }
   
@@ -20,6 +19,7 @@ export default async function ngFetch(url, method='GET', options={}, config = {}
     if (opts.headers) {
       opts.headers["Authorization"] = jwt;
     } else {
+
       opts.headers = {
         'Authorization': jwt
       }

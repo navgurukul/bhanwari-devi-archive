@@ -136,7 +136,7 @@ export class AddressForm extends Component {
     this.props.fetchingStart();
     await NgFetch("students/details/upload_file/profilePic", "POST", formData, config, false )
     .then((res) => {
-        console.log(res,"==================")
+        console.log(res,"=======")
         if (this.state.fileType === "profilePic") {
           this.setState({
             profile_pic: res.data.fileUrl,
@@ -216,6 +216,7 @@ export class AddressForm extends Component {
     ) {
       delete this.state.fileType;
       console.log("What is the problam ? are you made?");
+      // await NgFetch("students/details", "POST", false )
       axios({
         method: "POST",
         url: "students/details",
