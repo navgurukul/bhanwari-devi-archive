@@ -133,7 +133,6 @@ export class GetAllStudentsDetails extends Component {
   };
 
   deleteCards = (data,index ) => {  
-
     axios.delete("http://localhost:3000/students/details",{
       headers: {Authorization: localStorage.getItem("jwt"),
        },
