@@ -133,7 +133,7 @@ export class AddressForm extends Component {
     this.props.fetchingStart();
     axios
       .post(
-        "students/details/upload_file/profilePic",
+        "http://localhost:3000/students/details/upload_file/profilePic",
         formData,
         config
       )
@@ -190,8 +190,6 @@ export class AddressForm extends Component {
   };
 
   submit = (e) => {
-    //Add the logic for validation
-    //if data is valid
     e.preventDefault();
     const {
       email,
@@ -219,8 +217,8 @@ export class AddressForm extends Component {
       console.log("What is the problam ? are you made?");
       axios({
         method: "POST",
-        url: "students/details",
-        headers: {
+        url:  "http://localhost:3000/students/details",
+        headers: {  
           Authorization: localStorage.getItem("jwt"),
         },
         data: {
@@ -277,7 +275,7 @@ export class AddressForm extends Component {
   );
 
   render() {
-    // console.log(this.props)
+    // console.log(this.props, "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
     const { email, name, parents_name, address, city, pin_code } = this.state;
 
     const isEnabled =
@@ -368,6 +366,9 @@ export class AddressForm extends Component {
                   id="Email"
                   name="email"
                   label="Email of student"
+                  autocomplete="off"
+                  autocomplete="false"
+                  autocorrect="off"
                   value={this.state.email}
                   onChange={(e) => this.onChange(e)}
                   fullWidth
