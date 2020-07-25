@@ -109,7 +109,7 @@ export class GetAllStudentsDetails extends Component {
   }
   componentDidMount() {
     axios
-      .get("http://localhost:3000/students/details", {
+      .get("students/details", {
         headers: {
           Authorization: localStorage.getItem("jwt")
         }
@@ -133,7 +133,7 @@ export class GetAllStudentsDetails extends Component {
   };
 
   deleteCards = (data,index ) => {  
-    axios.delete("http://localhost:3000/students/details",{
+    axios.delete("students/details",{
       headers: {Authorization: localStorage.getItem("jwt"),
        },
       data: {

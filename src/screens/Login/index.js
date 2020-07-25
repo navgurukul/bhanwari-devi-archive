@@ -25,8 +25,8 @@ export default class Login extends React.Component {
     const { history } = this.props;
     console.log(history, "history");
 
-    const res = await NgFetch("students/login/google", "POST", opts);
-    console.log(res);
+    const res = await (await NgFetch("students/login/google", "POST", opts));
+    console.log(res, "res");
 
     localStorage.setItem("jwt", res.data.userToken);
     history.push("/addressForm");
