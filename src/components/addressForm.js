@@ -156,8 +156,8 @@ export class AddressForm extends Component {
     const { name, value } = e.target;
     let errors = this.state.errors;
     const newErros = { ...errors };
-
-    switch (name) {
+    
+  switch (name) {
       case "name":
         newErros.name =
           value.length > 5 ? "" : "Full Name must be 5 characters long!";
@@ -219,7 +219,7 @@ export class AddressForm extends Component {
       console.log("What is the problam ? are you made?");
       axios({
         method: "POST",
-        url: "students/details",
+        url: "/students/details",
         headers: {
           Authorization: localStorage.getItem("jwt"),
         },
@@ -277,8 +277,7 @@ export class AddressForm extends Component {
   );
 
   render() {
-    // console.log(this.props)
-    const { email, name, parents_name, address, city, pin_code } = this.state;
+      const { email, name, parents_name, address, city, pin_code } = this.state;
 
     const isEnabled =
       validEmailRe.test(email) &&
@@ -369,8 +368,8 @@ export class AddressForm extends Component {
                   name="email"
                   label="Email of student"
                   value={this.state.email}
-                  onChange={(e) => this.onChange(e)}
-                  fullWidth
+                  onChange={this.props.location.pathname=="/addressForm"?(e) => this.onChange(e):null}
+                  fullWidth    
                 />
               </Grid>
               <div style={{ color: "red" }}>{this.state.errors.email}</div>

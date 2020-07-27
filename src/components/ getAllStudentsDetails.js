@@ -70,7 +70,7 @@ export class GetAllStudentsDetails extends Component {
     const { classes } = this.props;
     if (this.state.showForm) {
       return <AddressForm student={this.state.student} />;
-    } else {
+    }else{
       return (
         <div>
           <Grid
