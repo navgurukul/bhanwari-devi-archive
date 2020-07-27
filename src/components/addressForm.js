@@ -133,7 +133,7 @@ export class AddressForm extends Component {
     this.props.fetchingStart();
     axios
       .post(
-        "http://localhost:3000/students/details/upload_file/profilePic",
+        "students/details/upload_file/profilePic",
         formData,
         config
       )
@@ -156,9 +156,6 @@ export class AddressForm extends Component {
     const { name, value } = e.target;
     let errors = this.state.errors;
     const newErros = { ...errors };
-    // if (this.state.disabled) {
-    //     this.setState({ disabled: false });
-    //   }
     
   switch (name) {
       case "name":
@@ -222,7 +219,7 @@ export class AddressForm extends Component {
       console.log("What is the problam ? are you made?");
       axios({
         method: "POST",
-        url: "http://localhost:3000/students/details",
+        url: "/students/details",
         headers: {
           Authorization: localStorage.getItem("jwt"),
         },
@@ -280,8 +277,7 @@ export class AddressForm extends Component {
   );
 
   render() {
-    // console.log(this.props)
-    const { email, name, parents_name, address, city, pin_code } = this.state;
+      const { email, name, parents_name, address, city, pin_code } = this.state;
 
     const isEnabled =
       validEmailRe.test(email) &&
@@ -372,12 +368,8 @@ export class AddressForm extends Component {
                   name="email"
                   label="Email of student"
                   value={this.state.email}
-                  onChange={(e) => this.onChange(e)}
-                  fullWidth
-                  // disabled = {this.state ? true:false}
-                  // disabled = {true}
-               
-            
+                  onChange={this.props.location.pathname=="/addressForm"?(e) => this.onChange(e):null}
+                  fullWidth    
                 />
               </Grid>
               <div style={{ color: "red" }}>{this.state.errors.email}</div>

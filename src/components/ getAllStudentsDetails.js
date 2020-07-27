@@ -44,7 +44,7 @@ export class GetAllStudentsDetails extends Component {
   }
   componentDidMount() {
     axios
-      .get("http://localhost:3000/students/details", {
+      .get("students/details", {
         headers: {
           Authorization: localStorage.getItem("jwt")
         }
@@ -60,7 +60,6 @@ export class GetAllStudentsDetails extends Component {
   }
 
   submit = (data) => {
-    console.log(data)
     this.setState({
       student: data,
       showForm: true,
