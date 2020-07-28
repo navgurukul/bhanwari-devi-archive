@@ -8,7 +8,7 @@ import axios from "axios";
 import EditIcon from "@material-ui/icons/Edit";
 import { Grid, Button } from "@material-ui/core";
 import AddressForm from "./addressForm";
-import NgFetch from "../utils/gadFetch"
+import NgFetch from "../utils/ngFetch"
 
 const useStyles = theme => ({
   root: {
