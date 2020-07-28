@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
-// import file from '../components/addressForm';
 import history from './history';
 
 const BASE_URL = process.env.API_URL;

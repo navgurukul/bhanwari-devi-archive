@@ -124,7 +124,6 @@ export class AddressForm extends Component {
   };
 
   UpdateProfileData = async (file) => {
-    
     const formData = new FormData();
     formData.append("file", file);
     const config = {
@@ -136,7 +135,6 @@ export class AddressForm extends Component {
     this.props.fetchingStart();
     await NgFetch("students/details/upload_file/profilePic", "POST", formData, config, false )
     .then((res) => {
-        console.log(res,"=======")
         if (this.state.fileType === "profilePic") {
           this.setState({
             profile_pic: res.data.fileUrl,
@@ -188,7 +186,7 @@ export class AddressForm extends Component {
     });
   };
 
-  submit = (e) => {
+  submit = async(e) => {
     //Add the logic for validation
     //if data is valid
     e.preventDefault();
@@ -216,26 +214,18 @@ export class AddressForm extends Component {
     ) {
       delete this.state.fileType;
       console.log("What is the problam ? are you made?");
-      // await NgFetch("students/details", "POST", false )
-      axios({
-        method: "POST",
-        url: "students/details",
-        headers: {
-          Authorization: localStorage.getItem("jwt"),
-        },
-        data: {
-          name: this.state.name,
-          email: this.state.email,
-          parents_name: this.state.parents_name,
-          address: this.state.address,
-          city: this.state.city,
-          state: this.state.state,
-          pin_code: this.state.pin_code,
-          profile_pic: this.state.profile_pic,
-          indemnity_form: this.state.indemnity_form,
-        },
-      }).then((Response) => {
-        console.log(Response);
+      const data =  {
+        name: this.state.name,
+        email: this.state.email,
+        parents_name: this.state.parents_name,
+        address: this.state.address,
+        city: this.state.city,
+        state: this.state.state,
+        pin_code: this.state.pin_code,
+        profile_pic: this.state.profile_pic,
+        indemnity_form: this.state.indemnity_form,
+      }
+      await NgFetch("students/details", "POST", data, true).then((Response) => {
         localStorage.setItem("user", JSON.stringify(Response.data.data[0]));
         if (Response.data) {
           this.props.enqueueSnackbar("Details succesfuly sended", {
