@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
-// import file from '../components/addressForm';
 import history from './history';
 
 const BASE_URL = process.env.API_URL;
@@ -27,7 +26,6 @@ export default async function ngFetch(url, method='GET', options={}, config = {}
   }
   try {
     const resp = await axios(opts);
-    console.log(resp);
     return resp;
   } catch (err) {
     console.log(err)

@@ -3,7 +3,6 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
-import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import { withSnackbar } from "notistack";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -12,6 +11,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { connect } from "react-redux";
 import { changeFetching } from "../store/actions/auth";
 import { withRouter } from "react-router-dom";
+import NgFetch from "../utils/ngFetch"
 
 var validEmailRe = RegExp(
   /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
@@ -131,12 +131,7 @@ export class AddressForm extends Component {
       },
     };
     this.props.fetchingStart();
-    axios
-      .post(
-        "students/details/upload_file/profilePic",
-        formData,
-        config
-      )
+    await NgFetch("students/details/upload_file/profilePic", "POST", formData, config, false )
       .then((res) => {
         if (this.state.fileType === "profilePic") {
           this.setState({
@@ -189,7 +184,7 @@ export class AddressForm extends Component {
     });
   };
 
-  submit = (e) => {
+  submit = async(e) => {
     e.preventDefault();
     const {
       email,
@@ -215,25 +210,19 @@ export class AddressForm extends Component {
     ) {
       delete this.state.fileType;
       console.log("What is the problam ? are you made?");
-      axios({
-        method: "POST",
-        url:  "students/details",
-        headers: {  
-          Authorization: localStorage.getItem("jwt"),
-        },
-        data: {
-          name: this.state.name,
-          email: this.state.email,
-          parents_name: this.state.parents_name,
-          address: this.state.address,
-          city: this.state.city,
-          state: this.state.state,
-          pin_code: this.state.pin_code,
-          profile_pic: this.state.profile_pic,
-          indemnity_form: this.state.indemnity_form,
-        },
-      }).then((Response) => {
-        console.log(Response);
+      const data =  {
+        name: this.state.name,
+        email: this.state.email,
+        parents_name: this.state.parents_name,
+        address: this.state.address,
+        city: this.state.city,
+        state: this.state.state,
+        pin_code: this.state.pin_code,
+        profile_pic: this.state.profile_pic,
+        indemnity_form: this.state.indemnity_form,
+      }
+      await NgFetch("students/details", "POST", data, true)
+      .then((Response) => {
         localStorage.setItem("user", JSON.stringify(Response.data.data[0]));
         if (Response.data) {
           this.props.enqueueSnackbar("Details succesfuly sended", {
@@ -275,7 +264,6 @@ export class AddressForm extends Component {
   );
 
   render() {
-    // console.log(this.props, "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
     const { email, name, parents_name, address, city, pin_code } = this.state;
 
     const isEnabled =
@@ -366,12 +354,13 @@ export class AddressForm extends Component {
                   id="Email"
                   name="email"
                   label="Email of student"
-                  autocomplete="off"
-                  autocomplete="false"
-                  autocorrect="off"
+                  autoComplete="off"
+                  autoComplete="false"
+                  autoCorrect="off"
                   value={this.state.email}
-                  onChange={(e) => this.onChange(e)}
-                  fullWidth
+                  // onChange={(e) => this.onChange(e)}
+                  onChange={this.props.location.pathname=="/addressForm"?(e) => this.onChange(e):null}
+                  fullWidth  
                 />
               </Grid>
               <div style={{ color: "red" }}>{this.state.errors.email}</div>
@@ -481,6 +470,7 @@ export class AddressForm extends Component {
     );
   }
 }
+
 
 const mapDispatchToProps = (dispatch) => ({
   fetchingStart: () => dispatch(changeFetching(true)),

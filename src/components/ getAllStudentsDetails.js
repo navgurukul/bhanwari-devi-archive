@@ -3,7 +3,6 @@ import { withStyles } from "@material-ui/core/styles";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import axios from "axios";
 import EditIcon from "@material-ui/icons/Edit";
 import { Grid, Button } from "@material-ui/core";
 import AddressForm from "./addressForm";
@@ -11,6 +10,8 @@ import EmailIcon from '@material-ui/icons/Email';
 import RoomSharpIcon from '@material-ui/icons/RoomSharp';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Navbar from './navbar';
+import NgFetch from "../utils/ngFetch"
+
 const useStyles = theme => ({
   media: {
     width: 60,
@@ -107,15 +108,9 @@ export class GetAllStudentsDetails extends Component {
       showForm: false,
     };
   }
-  componentDidMount() {
-    axios
-      .get("students/details", {
-        headers: {
-          Authorization: localStorage.getItem("jwt")
-        }
-      })
+  async componentDidMount() {
+      await NgFetch("students/details",'GET', true)
       .then(response => {
-        console.log(response.data.data,"komal")
         this.setState({
           studentsDetails: response.data.data
         });
@@ -132,24 +127,21 @@ export class GetAllStudentsDetails extends Component {
     });
   };
 
-  deleteCards = (data,index ) => {  
-    axios.delete("students/details",{
-      headers: {Authorization: localStorage.getItem("jwt"),
-       },
-      data: {
-      email: data.email
-    }
-  }).then(res => {
+  deleteCards = async (data,index ) => { 
+    const Email = {
+        email: data.email
+      } 
+    await NgFetch("students/details", "DELETE", Email, true)
+    .then(res => {
         console.log(res, "delete")
-    }).catch(error => {
-      console.log(error, 'err0rrrrrr')
-    }) 
-    const l = this.state.studentsDetails.splice(index,1)
-    this.setState({
-        studentsDetails:this.state.studentsDetails
-    })
-   
-  }
+      }).catch(error => {
+        console.log(error, 'errrrrrrr')
+      }) 
+      const l = this.state.studentsDetails.splice(index,1)
+      this.setState({
+          studentsDetails:this.state.studentsDetails
+      })
+    }
 
   render() {
     const { classes } = this.props;
@@ -158,11 +150,10 @@ export class GetAllStudentsDetails extends Component {
       return <AddressForm student={this.state.student} />;
     } else {
       return (
-
-        <>
+      <>
           <Navbar />
 
-          <div className={classes.root} container>
+          <div className={classes.root}>
             <Grid container spacing={24}>
               {this.state.studentsDetails.map((filteredItem, index) => {
                 console.log(filteredItem.deleted,"DEERTR")
@@ -216,7 +207,7 @@ export class GetAllStudentsDetails extends Component {
                         <Typography className={classes.location}>
                           {filteredItem.address}   {filteredItem.city} , {filteredItem.state}, {filteredItem.pin_code}
                         </Typography>
-                      </CardActionArea>
+                      </CardActionArea>   
                     </div>
                     <CardActionArea >
                       <Button
@@ -224,12 +215,10 @@ export class GetAllStudentsDetails extends Component {
                         color="secondary"
                         className={classes.button}
                         startIcon={<DeleteIcon />}
-                        onClick={() =>{ 
-                          console.log("komal")
-                          this.deleteCards(filteredItem,index)}}
+                        onClick={() =>this.deleteCards(filteredItem,index)}
                       >
                         Delete
-                   </Button>
+                      </Button>
 
                     </CardActionArea>
 
