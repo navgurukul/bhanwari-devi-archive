@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Image from "material-ui-image";
 import logo from "../../assets/images/students.jpg";
-import NgFetch from "../../utils/gadFetch";
+import NgFetch from "../../utils/ngFetch";
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -17,16 +17,14 @@ export default class Login extends React.Component {
 
   responseGoogle = async (response) => {
     const opts = {
-      data: {
         idToken: response.tokenObj.id_token,
-      },
     };
 
     const { history } = this.props;
     console.log(history, "history");
 
-    const res = await NgFetch("students/login/google", "POST", opts);
-    console.log(res);
+    const res = await (await NgFetch("students/login/google", "POST", opts));
+    console.log(res, "res");
 
     localStorage.setItem("jwt", res.data.userToken);
     history.push("/addressForm");

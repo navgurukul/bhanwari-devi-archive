@@ -1,5 +1,9 @@
 body {
   margin: 0px;
+  /* overflow-x:hidden !important; */
+}
+.bodyComponent{
+  overflow-x:hidden !important;
 }
 
 .filterSelect {
@@ -284,6 +288,9 @@ input[type="file"] {
   display: none;
 }
 
+/* .makeStyles-root-10{
+  margin-top: 12%;
+} */
 /* Media query for tablets */
 
 @media only screen and (min-width: 600px) {
@@ -304,5 +311,10 @@ input[type="file"] {
     color: black;
     margin-left: 0.25em;
     width: 19em;
+  }
+}
+@media screen and (max-width: 375px) {
+  body {
+      overflow: hidden;
   }
 }
