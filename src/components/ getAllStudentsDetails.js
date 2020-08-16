@@ -6,98 +6,113 @@ import Paper from "@material-ui/core/Paper";
 import EditIcon from "@material-ui/icons/Edit";
 import { Grid, Button } from "@material-ui/core";
 import AddressForm from "./addressForm";
-import EmailIcon from '@material-ui/icons/Email';
-import RoomSharpIcon from '@material-ui/icons/RoomSharp';
-import DeleteIcon from '@material-ui/icons/Delete';
-import Navbar from './navbar';
-import NgFetch from "../utils/ngFetch"
+import EmailIcon from "@material-ui/icons/Email";
+import RoomSharpIcon from "@material-ui/icons/RoomSharp";
+import DeleteIcon from "@material-ui/icons/Delete";
+import Navbar from "./navbar";
+import NgFetch from "../utils/ngFetch";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
 
-const useStyles = theme => ({
+const useStyles = (theme) => ({
   media: {
     width: 60,
     height: 60,
     borderRadius: 100,
-    float: 'left',
-    padding: 10
+    float: "left",
+    padding: 10,
   },
   root: {
     flexGrow: 1,
-    height: '100%',
-    width: '100%',
-    marginTop: '12%',
+    height: "100%",
+    width: "100%",
+    marginTop: "12%",
     [theme.breakpoints.up(1000 + theme.spacing(2) * 2)]: {
       width: 1000,
       marginLeft: "auto",
       marginRight: "auto",
-      marginTop: '12%',
-
-
+      marginTop: "12%",
     },
-    backgroundColor: '#DCDCDC',
-
+    backgroundColor: "#DCDCDC",
   },
   paper: {
     padding: 4,
-    textAlign: 'center',
-
-
+    textAlign: "center",
   },
 
   padd: {
     padding: 20,
   },
   edit: {
-    float: 'left',
+    float: "left",
     marginTop: -18,
     marginLeft: -20,
-    '&:hover': {
-      color: '#f05f40'
-    }
+    "&:hover": {
+      color: "#f05f40",
+    },
   },
   name: {
     fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
     fontWeight: 500,
     lineHeight: "1.2em",
-    textTransform: 'capitalize',
+    textTransform: "capitalize",
     margin: 20,
-    textAlign: 'center'
+    textAlign: "center",
   },
   icons: {
-    float: 'left',
+    float: "left",
     padding: 5,
     fontSize: 30,
-    color: '#f05f40',
-    paddingLeft: '5%',
-
-
+    color: "#f05f40",
+    paddingLeft: "5%",
   },
   email: {
-    padding: '4% 0% 0% 7%',
+    padding: "4% 0% 0% 7%",
     overflow: "hidden",
     textOverflow: "ellipsis",
-    width: '17rem',
+    width: "17rem",
     fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
-
-
   },
   location: {
     lineHeight: 1.6,
-    textTransform: 'capitalize',
-    width: '17rem',
-    padding: '3% 0% 5% 19%',
+    textTransform: "capitalize",
+    width: "17rem",
+    padding: "3% 0% 5% 19%",
     fontFamily: `"Roboto", "Helvetica", "Arial", sans-serif`,
-
   },
   button: {
     margin: theme.spacing(1),
-    backgroundColor: "#f05f40",
-    float: 'right',
-    '&:hover': {
-      backgroundColor: "#f05f40"
-    }
-
+    backgroundColor: "white",
+    color: "#f05f40",
+    float: "right",
+    "&:hover": {
+      backgroundColor: "#f05f40",
+      color: "white",
+    },
+  },
+  buttonYes: {
+    margin: theme.spacing(1),
+    backgroundColor: "white",
+    color: "#f05f40",
+    float: "right",
+    "&:hover": {
+      backgroundColor: "#f05f40",
+      color: "white",
+    },
   },
 
+  buttonNo: {
+    margin: theme.spacing(1),
+    backgroundColor: "white",
+    color: "#f05f40",
+    float: "right",
+    "&:hover": {
+      backgroundColor: "#f05f40",
+      color: "white",
+    },
+  },
 });
 
 export class GetAllStudentsDetails extends Component {
@@ -106,16 +121,17 @@ export class GetAllStudentsDetails extends Component {
     this.state = {
       studentsDetails: [],
       showForm: false,
+      popup: false,
     };
   }
   async componentDidMount() {
-      await NgFetch("students/details",'GET', true)
-      .then(response => {
+    await NgFetch("students/details", "GET", true)
+      .then((response) => {
         this.setState({
-          studentsDetails: response.data.data
+          studentsDetails: response.data.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error, "error");
       });
   }
@@ -127,22 +143,34 @@ export class GetAllStudentsDetails extends Component {
     });
   };
 
-  deleteCards = async (data,index ) => { 
+  deleteCards = async (data, index) => {
     const Email = {
-        email: data.email
-      } 
+      email: data.email,
+    };
     await NgFetch("students/details", "DELETE", Email, true)
-    .then(res => {
-        console.log(res, "delete")
-      }).catch(error => {
-        console.log(error, 'errrrrrrr')
-      }) 
-      const l = this.state.studentsDetails.splice(index,1)
-      this.setState({
-          studentsDetails:this.state.studentsDetails
+      .then((res) => {
+        console.log(res, "delete");
       })
-    }
+      .catch((error) => {
+        console.log(error, "errrrrrrr");
+      });
+    const l = this.state.studentsDetails.splice(index, 1);
+    this.setState({
+      studentsDetails: this.state.studentsDetails,
+    });
+  };
 
+  handleOpen = () => {
+    this.setState({
+      popup: true,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      popup: false,
+    });
+  };
   render() {
     const { classes } = this.props;
 
@@ -150,93 +178,122 @@ export class GetAllStudentsDetails extends Component {
       return <AddressForm student={this.state.student} />;
     } else {
       return (
-      <>
+        <>
           <Navbar />
 
           <div className={classes.root}>
             <Grid container spacing={24}>
               {this.state.studentsDetails.map((filteredItem, index) => {
-                console.log(filteredItem.deleted,"DEERTR")
-                if(filteredItem.deleted){
-                  console.log(filteredItem.deleted)
-                  return null
+                console.log(filteredItem.deleted, "DEERTR");
+                if (filteredItem.deleted) {
+                  console.log(filteredItem.deleted);
+                  return null;
                 }
-                return (<Grid item xs={12} sm={6} key={index} className={classes.padd}>
-                  <Paper className={classes.paper}>
-                    <CardActionArea>
-                      <img
-                        className={classes.media}
-                        src={filteredItem.profile_pic}
-
-                      />
-
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.name}
-
-                      >
-                        {filteredItem.name}
-                      </Typography>
-                      <p className={classes.edit}
-
-                        onClick={() => this.submit(filteredItem)}
-                      >
-                        {" "}
-                        <EditIcon />
-                      </p>
-                    </CardActionArea>
-                    <div >
-                      <CardActionArea >
-                        <Typography className={classes.icons}>
-                          <EmailIcon />
-                        </Typography>
-                        <Typography
-
-                          className={classes.email}>
-
-                          {filteredItem.email}
-                        </Typography>
-                      </CardActionArea>
-
+                return (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    key={index}
+                    className={classes.padd}
+                  >
+                    <Paper className={classes.paper}>
                       <CardActionArea>
-                        <Typography className={classes.icons}>
-                          <RoomSharpIcon />
+                        <img
+                          className={classes.media}
+                          src={filteredItem.profile_pic}
+                        />
+
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="h2"
+                          className={classes.name}
+                        >
+                          {filteredItem.name}
                         </Typography>
-                        <Typography className={classes.location}>
-                          {filteredItem.address}   {filteredItem.city} , {filteredItem.state}, {filteredItem.pin_code}
-                        </Typography>
-                      </CardActionArea>   
-                    </div>
-                    <CardActionArea >
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                        startIcon={<DeleteIcon />}
-                        onClick={() =>this.deleteCards(filteredItem,index)}
-                      >
-                        Delete
-                      </Button>
+                        <p
+                          className={classes.edit}
+                          onClick={() => this.submit(filteredItem)}
+                        >
+                          {" "}
+                          <EditIcon />
+                        </p>
+                      </CardActionArea>
+                      <div>
+                        <CardActionArea>
+                          <Typography className={classes.icons}>
+                            <EmailIcon />
+                          </Typography>
+                          <Typography className={classes.email}>
+                            {filteredItem.email}
+                          </Typography>
+                        </CardActionArea>
 
-                    </CardActionArea>
+                        <CardActionArea>
+                          <Typography className={classes.icons}>
+                            <RoomSharpIcon />
+                          </Typography>
+                          <Typography className={classes.location}>
+                            {filteredItem.address} {filteredItem.city} ,{" "}
+                            {filteredItem.state}, {filteredItem.pin_code}
+                          </Typography>
+                        </CardActionArea>
+                      </div>
+                      <CardActionArea>
+                        <Button
+                          variant="contained"
+                          color="secondary"
+                          className={classes.button}
+                          startIcon={<DeleteIcon />}
+                          onClick={this.handleOpen}
+                        >
+                          Delete
+                        </Button>
 
-                  </Paper>
-                </Grid>)
-    })}
-
+                        <Dialog
+                          open={this.state.popup}
+                          onClose={this.handleClose}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                          <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                              <h3>Are you absolutely sure?</h3>
+                            </DialogContentText>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              className={classes.button}
+                              onClick={this.handleClose}
+                            >
+                              No
+                            </Button>
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              className={classes.button}
+                              startIcon={<DeleteIcon />}
+                              onClick={() =>
+                                this.deleteCards(filteredItem, index)
+                              }
+                              color="primary"
+                              autoFocus
+                            >
+                               Yes
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      </CardActionArea>
+                    </Paper>
+                  </Grid>
+                );
+              })}
             </Grid>
-
-
           </div>
-
         </>
-
-
-
-
-
       );
     }
   }

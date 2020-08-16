@@ -54,7 +54,7 @@ const styles = (theme) => ({
   },
 });
 
-export class AddressForm extends Component {
+export class AddressForm extends Component {       
   constructor(props) {
     super(props);
 
